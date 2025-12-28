@@ -184,5 +184,43 @@
     "general": "Generali",
     "password": "Password",
     "billing": "Fatturazione"
+  },
+  "billing": {
+    "title": "Fatturazione",
+    "description": "Gestisci il tuo abbonamento e i dettagli di fatturazione",
+    "currentPlan": "Piano Attuale",
+    "currentPlanDescription": "Il tuo piano di abbonamento e utilizzo attuale",
+    "gracePeriod": "Il tuo abbonamento terminera il {date}",
+    "manageBilling": "Gestisci Fatturazione",
+    "bookingsThisMonth": "Prenotazioni questo mese",
+    "unlimited": "Illimitate",
+    "availablePlans": "Piani Disponibili",
+    "monthly": "Mensile",
+    "yearly": "Annuale",
+    "mostPopular": "Piu Popolare",
+    "unlimitedBookings": "Prenotazioni illimitate",
+    "bookingsPerMonth": "{count} prenotazioni/mese",
+    "free": "Gratis",
+    "billedYearly": "Fatturato annualmente a {price}",
+    "currentPlanButton": "Piano Attuale",
+    "includedFree": "Incluso Gratis",
+    "upgradeTo": "Passa a {plan}",
+    "success": {
+      "title": "Abbonamento Attivato!",
+      "description": "Il tuo abbonamento e stato attivato con successo. Goditi le nuove funzionalita!"
+    },
+    "cancelled": {
+      "title": "Checkout Annullato",
+      "description": "Il tuo checkout e stato annullato. Puoi riprovare quando vuoi."
+    },
+    "features": {
+      "basic_calendar": "Calendario Base",
+      "email_notifications": "Notifiche Email",
+      "custom_branding": "Branding Personalizzato",
+      "social_image_download": "Download Immagine Social",
+      "priority_support": "Supporto Prioritario",
+      "api_access": "Accesso API",
+      "white_label": "Opzione White-label"
+    }
   }
 }

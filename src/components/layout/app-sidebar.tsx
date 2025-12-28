@@ -12,6 +12,8 @@ import {
   CreditCard,
   LogOut,
   ChevronUp,
+  Zap,
+  Sparkles,
 } from "lucide-react"
 import {
   Sidebar,
@@ -34,6 +36,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import { useAuth } from "@/contexts/auth-context"
 
 const mainNavItems = [
@@ -64,6 +67,8 @@ export function AppSidebar() {
   const handleLogout = async () => {
     await logout()
   }
+
+  const isFreePlan = !user?.plan || user.plan === "free"
 
   return (
     <Sidebar collapsible="icon">
@@ -123,7 +128,48 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
+      <SidebarFooter className="gap-2">
+        {/* Upgrade CTA - only shown for free users */}
+        {isFreePlan && (
+          <div className="group-data-[collapsible=icon]:hidden px-2">
+            <Link href="/dashboard/billing">
+              <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-primary/90 to-primary p-4 text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02]">
+                <div className="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
+                <div className="absolute bottom-0 left-0 -mb-4 -ml-4 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
+                <div className="relative">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
+                      <Zap className="h-4 w-4" />
+                    </div>
+                    <span className="font-semibold">Upgrade to Pro</span>
+                  </div>
+                  <p className="text-xs text-primary-foreground/80 mb-3">
+                    Unlock unlimited bookings and premium features
+                  </p>
+                  <div className="flex items-center gap-1 text-xs font-medium">
+                    <Sparkles className="h-3 w-3" />
+                    <span>Starting at 4.99/mo</span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+        )}
+
+        {/* Collapsed state upgrade button */}
+        {isFreePlan && (
+          <div className="hidden group-data-[collapsible=icon]:block px-2">
+            <Link href="/dashboard/billing">
+              <Button
+                size="icon"
+                className="w-full bg-gradient-to-r from-primary/90 to-primary hover:shadow-lg hover:shadow-primary/25"
+              >
+                <Zap className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        )}
+
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>

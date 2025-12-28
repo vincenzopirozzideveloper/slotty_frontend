@@ -184,5 +184,43 @@
     "general": "General",
     "password": "Password",
     "billing": "Billing"
+  },
+  "billing": {
+    "title": "Billing",
+    "description": "Manage your subscription and billing details",
+    "currentPlan": "Current Plan",
+    "currentPlanDescription": "Your current subscription plan and usage",
+    "gracePeriod": "Your subscription will end on {date}",
+    "manageBilling": "Manage Billing",
+    "bookingsThisMonth": "Bookings this month",
+    "unlimited": "Unlimited",
+    "availablePlans": "Available Plans",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "mostPopular": "Most Popular",
+    "unlimitedBookings": "Unlimited bookings",
+    "bookingsPerMonth": "{count} bookings/month",
+    "free": "Free",
+    "billedYearly": "Billed yearly at {price}",
+    "currentPlanButton": "Current Plan",
+    "includedFree": "Included Free",
+    "upgradeTo": "Upgrade to {plan}",
+    "success": {
+      "title": "Subscription Activated!",
+      "description": "Your subscription has been activated successfully. Enjoy your new features!"
+    },
+    "cancelled": {
+      "title": "Checkout Cancelled",
+      "description": "Your checkout was cancelled. You can try again anytime."
+    },
+    "features": {
+      "basic_calendar": "Basic Calendar",
+      "email_notifications": "Email Notifications",
+      "custom_branding": "Custom Branding",
+      "social_image_download": "Social Image Download",
+      "priority_support": "Priority Support",
+      "api_access": "API Access",
+      "white_label": "White-label Option"
+    }
   }
 }
