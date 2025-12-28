@@ -153,6 +153,8 @@
       "email": "Email",
       "password": "Password",
       "submit": "Sign in",
+      "loading": "Signing in...",
+      "error": "Invalid email or password",
       "noAccount": "Don't have an account?",
       "register": "Sign up"
     },
@@ -162,7 +164,11 @@
       "name": "Name",
       "email": "Email",
       "password": "Password",
+      "confirmPassword": "Confirm Password",
       "submit": "Create account",
+      "loading": "Creating account...",
+      "error": "An error occurred during registration",
+      "passwordMismatch": "Passwords do not match",
       "hasAccount": "Already have an account?",
       "login": "Sign in"
     }

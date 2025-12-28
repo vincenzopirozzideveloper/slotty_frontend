@@ -5,18 +5,52 @@ import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { useAuth } from "@/contexts/auth-context"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Loader2 } from "lucide-react"
 
 export default function RegisterPage() {
   const t = useTranslations("auth.register")
+  const { register } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  async function onSubmit(event: React.FormEvent) {
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
-    // TODO: Implement registration logic with Laravel API
-    setTimeout(() => setIsLoading(false), 1000)
+    setError(null)
+
+    const formData = new FormData(event.currentTarget)
+    const name = formData.get("name") as string
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
+    const passwordConfirmation = formData.get("password_confirmation") as string
+
+    if (password !== passwordConfirmation) {
+      setError(t("passwordMismatch"))
+      setIsLoading(false)
+      return
+    }
+
+    try {
+      await register({
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+      })
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError(t("error"))
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -28,41 +62,72 @@ export default function RegisterPage() {
         </p>
       </div>
 
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="name">{t("name")}</Label>
           <Input
             id="name"
+            name="name"
             type="text"
             placeholder="John Doe"
             autoComplete="name"
             disabled={isLoading}
+            required
           />
         </div>
         <div className="space-y-2">
           <Label htmlFor="email">{t("email")}</Label>
           <Input
             id="email"
+            name="email"
             type="email"
             placeholder="name@example.com"
             autoCapitalize="none"
             autoComplete="email"
             autoCorrect="off"
             disabled={isLoading}
+            required
           />
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">{t("password")}</Label>
-          <Input
+          <PasswordInput
             id="password"
-            type="password"
+            name="password"
             placeholder="********"
             autoComplete="new-password"
             disabled={isLoading}
+            required
+            minLength={8}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="password_confirmation">{t("confirmPassword")}</Label>
+          <PasswordInput
+            id="password_confirmation"
+            name="password_confirmation"
+            placeholder="********"
+            autoComplete="new-password"
+            disabled={isLoading}
+            required
+            minLength={8}
           />
         </div>
         <Button className="w-full" type="submit" disabled={isLoading}>
-          {isLoading ? "..." : t("submit")}
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {t("loading")}
+            </>
+          ) : (
+            t("submit")
+          )}
         </Button>
       </form>
 

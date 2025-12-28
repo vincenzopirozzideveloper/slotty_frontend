@@ -153,6 +153,8 @@
       "email": "Email",
       "password": "Password",
       "submit": "Accedi",
+      "loading": "Accesso in corso...",
+      "error": "Email o password non validi",
       "noAccount": "Non hai un account?",
       "register": "Registrati"
     },
@@ -162,7 +164,11 @@
       "name": "Nome",
       "email": "Email",
       "password": "Password",
+      "confirmPassword": "Conferma Password",
       "submit": "Crea account",
+      "loading": "Creazione account...",
+      "error": "Si e verificato un errore durante la registrazione",
+      "passwordMismatch": "Le password non corrispondono",
       "hasAccount": "Hai gia un account?",
       "login": "Accedi"
     }

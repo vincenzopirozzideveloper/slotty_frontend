@@ -5,18 +5,39 @@ import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { useAuth } from "@/contexts/auth-context"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
   const t = useTranslations("auth.login")
+  const { login } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  async function onSubmit(event: React.FormEvent) {
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
-    // TODO: Implement login logic with Laravel API
-    setTimeout(() => setIsLoading(false), 1000)
+    setError(null)
+
+    const formData = new FormData(event.currentTarget)
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
+
+    try {
+      await login({ email, password })
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError(t("error"))
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -28,31 +49,47 @@ export default function LoginPage() {
         </p>
       </div>
 
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">{t("email")}</Label>
           <Input
             id="email"
+            name="email"
             type="email"
             placeholder="name@example.com"
             autoCapitalize="none"
             autoComplete="email"
             autoCorrect="off"
             disabled={isLoading}
+            required
           />
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">{t("password")}</Label>
-          <Input
+          <PasswordInput
             id="password"
-            type="password"
+            name="password"
             placeholder="********"
             autoComplete="current-password"
             disabled={isLoading}
+            required
           />
         </div>
         <Button className="w-full" type="submit" disabled={isLoading}>
-          {isLoading ? "..." : t("submit")}
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {t("loading")}
+            </>
+          ) : (
+            t("submit")
+          )}
         </Button>
       </form>
 
