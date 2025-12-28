@@ -1,14 +1,28 @@
+import { useTranslations } from "next-intl"
+import { setRequestLocale } from "next-intl/server"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
 
-export default function SettingsPage() {
+export default async function SettingsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
+  return <SettingsContent />
+}
+
+function SettingsContent() {
+  const t = useTranslations("dashboard")
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+        <h1 className="text-3xl font-bold tracking-tight">{t("settings")}</h1>
         <p className="text-muted-foreground">Manage your account settings and preferences.</p>
       </div>
 
@@ -39,7 +53,7 @@ export default function SettingsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Password</CardTitle>
+            <CardTitle>{t("password")}</CardTitle>
             <CardDescription>Change your password.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">

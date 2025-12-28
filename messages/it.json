@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "title": "Slotty - Calendario Disponibilita per Freelancer",
+    "description": "Smetti di rincorrere i clienti. Lascia che ti prenotino. Condividi il tuo calendario disponibilita, ricevi richieste di prenotazione, approva con un click."
+  },
+  "nav": {
+    "features": "Funzionalita",
+    "howItWorks": "Come Funziona",
+    "pricing": "Prezzi",
+    "login": "Accedi",
+    "getStarted": "Inizia"
+  },
+  "hero": {
+    "badge": "Semplifica le Tue Prenotazioni",
+    "headline1": "Smetti di Rincorrere i Clienti.",
+    "headline2": "Lascia che Ti Prenotino.",
+    "subheadline": "Condividi il tuo calendario disponibilita, ricevi richieste di prenotazione e approva con un click. Pensato per freelancer che danno valore al proprio tempo.",
+    "ctaPrimary": "Inizia Gratis",
+    "ctaSecondary": "Scopri Come Funziona",
+    "socialProof": "Gratis per sempre per uso base",
+    "calendarMonth": "Dicembre 2025",
+    "notificationTitle": "Nuova Richiesta di Prenotazione",
+    "notificationText": "Sara vuole prenotare 27-28 Dic",
+    "notificationButton": "Approva"
+  },
+  "features": {
+    "badge": "Funzionalita Potenti",
+    "headline1": "Tutto Cio di Cui Hai Bisogno per",
+    "headline2": "Farti Prenotare",
+    "subheadline": "Costruito appositamente per freelancer, fotografi, consulenti e chiunque gestisca il proprio calendario.",
+    "calendar": {
+      "title": "Calendario Pubblico",
+      "desc": "Condividi un calendario bello e personalizzato con i tuoi clienti. Vedono la tua disponibilita in tempo reale senza scambi di email."
+    },
+    "booking": {
+      "title": "Richieste di Prenotazione",
+      "desc": "I clienti richiedono date, tu approvi o rifiuti. Mantieni il controllo della tua agenda rendendo facile la prenotazione per i clienti."
+    },
+    "multiday": {
+      "title": "Prenotazioni Multi-Giorno",
+      "desc": "Accetta intervalli di date per progetti lunghi, eventi o servizi fotografici di piu giorni. Perfetto per fotografi e organizzatori di eventi."
+    },
+    "branding": {
+      "title": "Branding Personalizzato",
+      "desc": "Aggiungi il tuo logo, personalizza i colori e rendi il calendario tuo. Presenta un'immagine professionale ad ogni cliente."
+    },
+    "notifications": {
+      "title": "Notifiche Email",
+      "desc": "Ricevi notifiche istantanee quando qualcuno richiede una prenotazione. Non perdere mai piu un'opportunita."
+    },
+    "doubleBooking": {
+      "title": "Niente Doppie Prenotazioni",
+      "desc": "La gestione intelligente della disponibilita ti assicura di non prenotare mai due volte per errore. Il tuo calendario resta preciso e affidabile."
+    }
+  },
+  "how": {
+    "badge": "Processo Semplice",
+    "headline1": "Inizia in",
+    "headline2": "3 Semplici Passi",
+    "subheadline": "Dalla registrazione alla tua prima prenotazione in meno di 5 minuti. Nessuna configurazione complicata.",
+    "step1": {
+      "title": "Crea il Tuo Calendario",
+      "desc": "Registrati e configura il tuo calendario disponibilita in pochi secondi. Aggiungi il tuo branding e personalizza l'aspetto.",
+      "info": "Nuovo Calendario Creato"
+    },
+    "step2": {
+      "title": "Condividi il Tuo Link",
+      "desc": "Ottieni un link pubblico unico al tuo calendario. Condividilo sul tuo sito web, social media o invialo direttamente ai clienti."
+    },
+    "step3": {
+      "title": "Fatti Prenotare",
+      "desc": "I clienti richiedono date, tu approvi con un click. Il tuo calendario si aggiorna automaticamente. Tutto qui!",
+      "info": "Prenotazione Confermata!"
+    }
+  },
+  "comparison": {
+    "badge": "Perche Slotty?",
+    "headline1": "Esci dal Caos.",
+    "headline2": "Trova il Tuo Flusso.",
+    "subheadline": "Scopri come Slotty trasforma il modo in cui gestisci le prenotazioni.",
+    "without": {
+      "title": "Senza Slotty",
+      "items": [
+        "Thread email infiniti",
+        "Aggiornamenti manuali del calendario",
+        "Opportunita perse",
+        "Esperienza cliente poco professionale",
+        "Rischio di doppie prenotazioni"
+      ]
+    },
+    "with": {
+      "title": "Con Slotty",
+      "items": [
+        "Approvazione prenotazioni con un click",
+        "Disponibilita sincronizzata automaticamente",
+        "Non perdere mai una prenotazione",
+        "Esperienza cliente impeccabile",
+        "Prevenzione intelligente dei conflitti"
+      ]
+    }
+  },
+  "pricing": {
+    "badge": "Prezzi Semplici e Trasparenti",
+    "headline1": "Scegli il Tuo",
+    "headline2": "Piano",
+    "subheadline": "Inizia gratis, fai upgrade quando ne hai bisogno. Nessun costo nascosto, cancella quando vuoi.",
+    "perMonth": "/mese",
+    "mostPopular": "Piu Popolare",
+    "free": {
+      "name": "Gratis",
+      "desc": "Perfetto per iniziare",
+      "features": ["25 prenotazioni al mese", "Calendario base"],
+      "cta": "Inizia Gratis"
+    },
+    "pro": {
+      "name": "Pro",
+      "desc": "Per professionisti in crescita",
+      "features": ["Prenotazioni illimitate", "Branding personalizzato", "Supporto prioritario", "Rimuovi branding Slotty"],
+      "cta": "Passa a Pro"
+    },
+    "max": {
+      "name": "Max",
+      "desc": "Per utenti avanzati",
+      "features": ["Tutto incluso in Pro", "Download immagine social", "Accesso API", "Opzione white-label", "Supporto prioritario"],
+      "cta": "Passa a Max"
+    }
+  },
+  "cta": {
+    "headline1": "Pronto a Prendere il Controllo del",
+    "headline2": "Tuo Tempo?",
+    "subheadline": "Unisciti a centinaia di freelancer che hanno semplificato il loro processo di prenotazione. Inizia gratis, nessuna carta di credito richiesta.",
+    "primary": "Inizia Gratis",
+    "secondary": "Scopri di Piu",
+    "trust": ["Piano gratis per sempre", "Nessuna carta di credito richiesta", "Configurazione in 2 minuti"]
+  },
+  "footer": {
+    "tagline": "Il modo piu semplice per freelancer di gestire la propria disponibilita e farsi prenotare dai clienti.",
+    "product": "Prodotto",
+    "company": "Azienda",
+    "legal": "Legale",
+    "about": "Chi Siamo",
+    "blog": "Blog",
+    "contact": "Contatti",
+    "privacy": "Privacy Policy",
+    "terms": "Termini di Servizio",
+    "cookies": "Cookie Policy",
+    "copyright": "Tutti i diritti riservati."
+  },
+  "auth": {
+    "login": {
+      "title": "Bentornato",
+      "subtitle": "Accedi al tuo account",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Accedi",
+      "noAccount": "Non hai un account?",
+      "register": "Registrati"
+    },
+    "register": {
+      "title": "Crea account",
+      "subtitle": "Inizia la tua prova gratuita",
+      "name": "Nome",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Crea account",
+      "hasAccount": "Hai gia un account?",
+      "login": "Accedi"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Bentornato",
+    "overview": "Panoramica",
+    "bookings": "Prenotazioni",
+    "calendar": "Calendario",
+    "customers": "Clienti",
+    "settings": "Impostazioni",
+    "general": "Generali",
+    "password": "Password",
+    "billing": "Fatturazione"
+  }
+}

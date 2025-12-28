@@ -2,6 +2,7 @@ import { AppSidebar } from "@/components/layout/app-sidebar"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import { ModeToggle } from "@/components/mode-toggle"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -29,6 +30,7 @@ export default function DashboardLayout({
             </BreadcrumbList>
           </Breadcrumb>
           <div className="ml-auto flex items-center gap-2">
+            <LanguageSwitcher />
             <ModeToggle />
           </div>
         </header>

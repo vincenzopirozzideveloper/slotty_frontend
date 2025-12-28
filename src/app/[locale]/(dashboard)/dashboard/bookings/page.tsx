@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl"
+import { setRequestLocale } from "next-intl/server"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,12 +19,25 @@ const statusColors: Record<string, string> = {
   cancelled: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
 }
 
-export default function BookingsPage() {
+export default async function BookingsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
+  return <BookingsContent />
+}
+
+function BookingsContent() {
+  const t = useTranslations("dashboard")
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Bookings</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{t("bookings")}</h1>
           <p className="text-muted-foreground">Manage your appointments and reservations.</p>
         </div>
         <Button>

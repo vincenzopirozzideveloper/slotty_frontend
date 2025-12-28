@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "title": "Slotty - Availability Calendar for Freelancers",
+    "description": "Stop chasing clients. Let them book you. Share your availability calendar, receive booking requests, approve with one click."
+  },
+  "nav": {
+    "features": "Features",
+    "howItWorks": "How it Works",
+    "pricing": "Pricing",
+    "login": "Login",
+    "getStarted": "Get Started"
+  },
+  "hero": {
+    "badge": "Simplify Your Bookings",
+    "headline1": "Stop Chasing Clients.",
+    "headline2": "Let Them Book You.",
+    "subheadline": "Share your availability calendar, receive booking requests, and approve with one click. Built for freelancers who value their time.",
+    "ctaPrimary": "Start Free",
+    "ctaSecondary": "See How It Works",
+    "socialProof": "Free forever for basic use",
+    "calendarMonth": "December 2025",
+    "notificationTitle": "New Booking Request",
+    "notificationText": "Sarah wants to book Dec 27-28",
+    "notificationButton": "Approve"
+  },
+  "features": {
+    "badge": "Powerful Features",
+    "headline1": "Everything You Need to",
+    "headline2": "Get Booked",
+    "subheadline": "Built specifically for freelancers, photographers, consultants, and anyone who manages their own schedule.",
+    "calendar": {
+      "title": "Public Calendar",
+      "desc": "Share a beautiful, branded calendar with your clients. They see your real-time availability without back-and-forth emails."
+    },
+    "booking": {
+      "title": "Booking Requests",
+      "desc": "Clients request dates, you approve or decline. Stay in control of your schedule while making it easy for clients to book."
+    },
+    "multiday": {
+      "title": "Multi-Day Bookings",
+      "desc": "Accept date ranges for longer projects, events, or multi-day shoots. Perfect for photographers and event planners."
+    },
+    "branding": {
+      "title": "Custom Branding",
+      "desc": "Add your logo, customize colors, and make the calendar your own. Present a professional image to every client."
+    },
+    "notifications": {
+      "title": "Email Notifications",
+      "desc": "Get notified instantly when someone requests a booking. Never miss an opportunity again."
+    },
+    "doubleBooking": {
+      "title": "No Double-Booking",
+      "desc": "Smart availability management ensures you never accidentally double-book. Your calendar stays accurate and reliable."
+    }
+  },
+  "how": {
+    "badge": "Simple Process",
+    "headline1": "Get Started in",
+    "headline2": "3 Easy Steps",
+    "subheadline": "From sign-up to your first booking in under 5 minutes. No complicated setup required.",
+    "step1": {
+      "title": "Create Your Calendar",
+      "desc": "Sign up and set up your availability calendar in seconds. Add your branding and customize the look.",
+      "info": "New Calendar Created"
+    },
+    "step2": {
+      "title": "Share Your Link",
+      "desc": "Get a unique public link to your calendar. Share it on your website, social media, or send directly to clients."
+    },
+    "step3": {
+      "title": "Get Booked",
+      "desc": "Clients request dates, you approve with one click. Your calendar updates automatically. That's it!",
+      "info": "Booking Confirmed!"
+    }
+  },
+  "comparison": {
+    "badge": "Why Slotty?",
+    "headline1": "Escape the Chaos.",
+    "headline2": "Find Your Flow.",
+    "subheadline": "See how Slotty transforms the way you manage bookings.",
+    "without": {
+      "title": "Without Slotty",
+      "items": [
+        "Endless email threads",
+        "Manual calendar updates",
+        "Missed opportunities",
+        "Unprofessional client experience",
+        "Risk of double-booking"
+      ]
+    },
+    "with": {
+      "title": "With Slotty",
+      "items": [
+        "One-click booking approval",
+        "Auto-synced availability",
+        "Never miss a booking",
+        "Polished client experience",
+        "Smart conflict prevention"
+      ]
+    }
+  },
+  "pricing": {
+    "badge": "Simple, Transparent Pricing",
+    "headline1": "Choose Your",
+    "headline2": "Plan",
+    "subheadline": "Start free, upgrade when you need more. No hidden fees, cancel anytime.",
+    "perMonth": "/month",
+    "mostPopular": "Most Popular",
+    "free": {
+      "name": "Free",
+      "desc": "Perfect for getting started",
+      "features": ["25 bookings per month", "Basic calendar"],
+      "cta": "Get Started Free"
+    },
+    "pro": {
+      "name": "Pro",
+      "desc": "For growing professionals",
+      "features": ["Unlimited bookings", "Custom branding", "Priority support", "Remove Slotty branding"],
+      "cta": "Upgrade to Pro"
+    },
+    "max": {
+      "name": "Max",
+      "desc": "For power users",
+      "features": ["Everything in Pro", "Social image download", "API access", "White-label option", "Priority support"],
+      "cta": "Upgrade to Max"
+    }
+  },
+  "cta": {
+    "headline1": "Ready to Take Control of",
+    "headline2": "Your Time?",
+    "subheadline": "Join hundreds of freelancers who have simplified their booking process. Start for free, no credit card required.",
+    "primary": "Get Started for Free",
+    "secondary": "Learn More",
+    "trust": ["Free forever plan", "No credit card required", "Setup in 2 minutes"]
+  },
+  "footer": {
+    "tagline": "The simplest way for freelancers to manage their availability and get booked by clients.",
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Policy",
+    "copyright": "All rights reserved."
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "register": "Sign up"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Start your free trial",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create account",
+      "hasAccount": "Already have an account?",
+      "login": "Sign in"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "overview": "Overview",
+    "bookings": "Bookings",
+    "calendar": "Calendar",
+    "customers": "Customers",
+    "settings": "Settings",
+    "general": "General",
+    "password": "Password",
+    "billing": "Billing"
+  }
+}

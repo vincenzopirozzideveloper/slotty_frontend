@@ -2,43 +2,35 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 
-export default function RegisterPage() {
+export default function LoginPage() {
+  const t = useTranslations("auth.login")
   const [isLoading, setIsLoading] = useState(false)
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault()
     setIsLoading(true)
-    // TODO: Implement registration logic with Laravel API
+    // TODO: Implement login logic with Laravel API
     setTimeout(() => setIsLoading(false), 1000)
   }
 
   return (
     <>
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Create an account</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
         <p className="text-sm text-muted-foreground">
-          Enter your details to get started with Slotty
+          {t("subtitle")}
         </p>
       </div>
 
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="name">Full Name</Label>
-          <Input
-            id="name"
-            type="text"
-            placeholder="John Doe"
-            autoComplete="name"
-            disabled={isLoading}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("email")}</Label>
           <Input
             id="email"
             type="email"
@@ -50,17 +42,17 @@ export default function RegisterPage() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t("password")}</Label>
           <Input
             id="password"
             type="password"
-            placeholder="Create a password"
-            autoComplete="new-password"
+            placeholder="********"
+            autoComplete="current-password"
             disabled={isLoading}
           />
         </div>
         <Button className="w-full" type="submit" disabled={isLoading}>
-          {isLoading ? "Creating account..." : "Create Account"}
+          {isLoading ? "..." : t("submit")}
         </Button>
       </form>
 
@@ -69,7 +61,7 @@ export default function RegisterPage() {
           <Separator className="w-full" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+          <span className="bg-background px-2 text-muted-foreground">Or</span>
         </div>
       </div>
 
@@ -104,21 +96,9 @@ export default function RegisterPage() {
       </div>
 
       <p className="px-8 text-center text-sm text-muted-foreground">
-        By clicking continue, you agree to our{" "}
-        <Link href="/terms" className="underline underline-offset-4 hover:text-primary">
-          Terms of Service
-        </Link>{" "}
-        and{" "}
-        <Link href="/privacy" className="underline underline-offset-4 hover:text-primary">
-          Privacy Policy
-        </Link>
-        .
-      </p>
-
-      <p className="px-8 text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
-        <Link href="/login" className="underline underline-offset-4 hover:text-primary">
-          Sign in
+        {t("noAccount")}{" "}
+        <Link href="/register" className="underline underline-offset-4 hover:text-primary">
+          {t("register")}
         </Link>
       </p>
     </>

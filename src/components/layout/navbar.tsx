@@ -1,18 +1,22 @@
 "use client"
 
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 
-const navLinks = [
-  { href: "/features", label: "Features" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/about", label: "About" },
-]
-
 export function Navbar() {
+  const t = useTranslations("nav")
+
+  const navLinks = [
+    { href: "#features", label: t("features") },
+    { href: "#how-it-works", label: t("howItWorks") },
+    { href: "#pricing", label: t("pricing") },
+  ]
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
@@ -74,12 +78,13 @@ export function Navbar() {
 
         <div className="flex flex-1 items-center justify-end space-x-2">
           <nav className="flex items-center space-x-2">
+            <LanguageSwitcher />
             <ModeToggle />
             <Button variant="ghost" asChild>
-              <Link href="/login">Sign In</Link>
+              <Link href="/login">{t("login")}</Link>
             </Button>
             <Button asChild>
-              <Link href="/register">Get Started</Link>
+              <Link href="/register">{t("getStarted")}</Link>
             </Button>
           </nav>
         </div>

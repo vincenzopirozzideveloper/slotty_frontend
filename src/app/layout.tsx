@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -14,8 +13,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Slotty - Modern Booking Platform",
-  description: "The modern booking platform for professionals. Streamline your appointments, reduce no-shows, and grow your business.",
+  title: "Slotty - Availability Calendar for Freelancers",
+  description: "Stop chasing clients. Let them book you. Share your availability calendar, receive booking requests, approve with one click.",
 }
 
 export default function RootLayout({
@@ -23,18 +22,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
-  )
+  return children
 }

@@ -1,39 +1,54 @@
+import { useTranslations } from "next-intl"
+import { setRequestLocale } from "next-intl/server"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar, Users, Clock, TrendingUp } from "lucide-react"
 
-const stats = [
-  {
-    title: "Total Bookings",
-    value: "1,234",
-    description: "+12% from last month",
-    icon: Calendar,
-  },
-  {
-    title: "Active Customers",
-    value: "456",
-    description: "+8% from last month",
-    icon: Users,
-  },
-  {
-    title: "Hours Booked",
-    value: "892",
-    description: "+23% from last month",
-    icon: Clock,
-  },
-  {
-    title: "Revenue",
-    value: "$12,345",
-    description: "+15% from last month",
-    icon: TrendingUp,
-  },
-]
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
 
-export default function DashboardPage() {
+  return <DashboardContent />
+}
+
+function DashboardContent() {
+  const t = useTranslations("dashboard")
+
+  const stats = [
+    {
+      title: "Total Bookings",
+      value: "1,234",
+      description: "+12% from last month",
+      icon: Calendar,
+    },
+    {
+      title: "Active Customers",
+      value: "456",
+      description: "+8% from last month",
+      icon: Users,
+    },
+    {
+      title: "Hours Booked",
+      value: "892",
+      description: "+23% from last month",
+      icon: Clock,
+    },
+    {
+      title: "Revenue",
+      value: "$12,345",
+      description: "+15% from last month",
+      icon: TrendingUp,
+    },
+  ]
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">Welcome back! Here&apos;s an overview of your business.</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
+        <p className="text-muted-foreground">{t("welcome")}!</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

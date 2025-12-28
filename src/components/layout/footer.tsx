@@ -1,23 +1,11 @@
-import Link from "next/link"
+"use client"
 
-const footerLinks = {
-  product: [
-    { href: "/features", label: "Features" },
-    { href: "/pricing", label: "Pricing" },
-    { href: "/integrations", label: "Integrations" },
-  ],
-  company: [
-    { href: "/about", label: "About" },
-    { href: "/blog", label: "Blog" },
-    { href: "/careers", label: "Careers" },
-  ],
-  legal: [
-    { href: "/privacy", label: "Privacy" },
-    { href: "/terms", label: "Terms" },
-  ],
-}
+import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 export function Footer() {
+  const t = useTranslations("footer")
+
   return (
     <footer className="border-t bg-background">
       <div className="container py-12 md:py-16">
@@ -30,53 +18,72 @@ export function Footer() {
               <span className="font-bold">Slotty</span>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground">
-              The modern booking platform for professionals.
+              {t("tagline")}
             </p>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold">Product</h3>
+            <h3 className="text-sm font-semibold">{t("product")}</h3>
             <ul className="mt-4 space-y-3">
-              {footerLinks.product.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  {t("product")}
+                </Link>
+              </li>
+              <li>
+                <Link href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Pricing
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold">Company</h3>
+            <h3 className="text-sm font-semibold">{t("company")}</h3>
             <ul className="mt-4 space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  {t("about")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  {t("blog")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  {t("contact")}
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold">Legal</h3>
+            <h3 className="text-sm font-semibold">{t("legal")}</h3>
             <ul className="mt-4 space-y-3">
-              {footerLinks.legal.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  {t("privacy")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  {t("terms")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/cookies" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  {t("cookies")}
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 border-t pt-8">
           <p className="text-center text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Slotty. All rights reserved.
+            &copy; {new Date().getFullYear()} Slotty. {t("copyright")}
           </p>
         </div>
       </div>

@@ -2,33 +2,45 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const t = useTranslations("auth.register")
   const [isLoading, setIsLoading] = useState(false)
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault()
     setIsLoading(true)
-    // TODO: Implement login logic with Laravel API
+    // TODO: Implement registration logic with Laravel API
     setTimeout(() => setIsLoading(false), 1000)
   }
 
   return (
     <>
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
         <p className="text-sm text-muted-foreground">
-          Enter your credentials to access your account
+          {t("subtitle")}
         </p>
       </div>
 
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="name">{t("name")}</Label>
+          <Input
+            id="name"
+            type="text"
+            placeholder="John Doe"
+            autoComplete="name"
+            disabled={isLoading}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="email">{t("email")}</Label>
           <Input
             id="email"
             type="email"
@@ -40,22 +52,17 @@ export default function LoginPage() {
           />
         </div>
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
-            <Link href="/forgot-password" className="text-sm text-muted-foreground hover:text-primary">
-              Forgot password?
-            </Link>
-          </div>
+          <Label htmlFor="password">{t("password")}</Label>
           <Input
             id="password"
             type="password"
-            placeholder="Enter your password"
-            autoComplete="current-password"
+            placeholder="********"
+            autoComplete="new-password"
             disabled={isLoading}
           />
         </div>
         <Button className="w-full" type="submit" disabled={isLoading}>
-          {isLoading ? "Signing in..." : "Sign In"}
+          {isLoading ? "..." : t("submit")}
         </Button>
       </form>
 
@@ -64,7 +71,7 @@ export default function LoginPage() {
           <Separator className="w-full" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+          <span className="bg-background px-2 text-muted-foreground">Or</span>
         </div>
       </div>
 
@@ -99,9 +106,9 @@ export default function LoginPage() {
       </div>
 
       <p className="px-8 text-center text-sm text-muted-foreground">
-        Don&apos;t have an account?{" "}
-        <Link href="/register" className="underline underline-offset-4 hover:text-primary">
-          Sign up
+        {t("hasAccount")}{" "}
+        <Link href="/login" className="underline underline-offset-4 hover:text-primary">
+          {t("login")}
         </Link>
       </p>
     </>

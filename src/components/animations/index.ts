@@ -1,0 +1,8 @@
+export { FadeIn } from "./fade-in"
+export { TextReveal } from "./text-reveal"
+export { Parallax } from "./parallax"
+export { HorizontalScroll } from "./horizontal-scroll"
+export { MagneticButton } from "./magnetic-button"
+export { ScaleIn } from "./scale-in"
+export { ScrollingText } from "./scrolling-text"
+export { InfiniteMarquee } from "./infinite-marquee"
