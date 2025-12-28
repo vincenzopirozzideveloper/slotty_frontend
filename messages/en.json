@@ -185,6 +185,80 @@
     "password": "Password",
     "billing": "Billing"
   },
+  "sidebar": {
+    "platform": "Platform",
+    "settingsGroup": "Settings",
+    "nav": {
+      "dashboard": "Dashboard",
+      "bookings": "Bookings",
+      "calendar": "Calendar",
+      "customers": "Customers",
+      "settings": "Settings",
+      "billing": "Billing"
+    },
+    "upgrade": {
+      "title": "Upgrade to Pro",
+      "description": "Unlock unlimited bookings and premium features",
+      "price": "From $4.99/month"
+    },
+    "menu": {
+      "accountSettings": "Account Settings",
+      "billing": "Billing",
+      "logout": "Log out"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage your account settings and preferences",
+    "tabs": {
+      "profile": "Profile",
+      "password": "Password",
+      "dangerZone": "Danger Zone"
+    },
+    "profile": {
+      "title": "Profile Information",
+      "description": "Update your personal information",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "submit": "Save Changes",
+      "saving": "Saving...",
+      "success": "Profile updated successfully",
+      "error": "Failed to update profile"
+    },
+    "password": {
+      "title": "Change Password",
+      "description": "Update your password to keep your account secure",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "submit": "Update Password",
+      "updating": "Updating...",
+      "success": "Password updated successfully",
+      "error": "Failed to update password",
+      "mismatch": "Passwords do not match"
+    },
+    "dangerZone": {
+      "title": "Danger Zone",
+      "description": "Irreversible actions for your account",
+      "deleteAccount": {
+        "title": "Delete Account",
+        "description": "Permanently delete your account and all associated data. This action cannot be undone.",
+        "button": "Delete Account",
+        "dialog": {
+          "title": "Are you sure?",
+          "description": "This will permanently delete your account and all your data. This action cannot be undone.",
+          "password": "Enter your password to confirm",
+          "cancel": "Cancel",
+          "confirm": "Delete My Account",
+          "deleting": "Deleting..."
+        },
+        "success": "Account deleted successfully",
+        "error": "Failed to delete account"
+      }
+    }
+  },
   "billing": {
     "title": "Billing",
     "description": "Manage your subscription and billing details",

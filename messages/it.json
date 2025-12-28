@@ -185,6 +185,80 @@
     "password": "Password",
     "billing": "Fatturazione"
   },
+  "sidebar": {
+    "platform": "Piattaforma",
+    "settingsGroup": "Impostazioni",
+    "nav": {
+      "dashboard": "Dashboard",
+      "bookings": "Prenotazioni",
+      "calendar": "Calendario",
+      "customers": "Clienti",
+      "settings": "Impostazioni",
+      "billing": "Fatturazione"
+    },
+    "upgrade": {
+      "title": "Passa a Pro",
+      "description": "Sblocca prenotazioni illimitate e funzionalita premium",
+      "price": "Da 4,99€/mese"
+    },
+    "menu": {
+      "accountSettings": "Impostazioni Account",
+      "billing": "Fatturazione",
+      "logout": "Esci"
+    }
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "description": "Gestisci le impostazioni del tuo account e le preferenze",
+    "tabs": {
+      "profile": "Profilo",
+      "password": "Password",
+      "dangerZone": "Zona Pericolosa"
+    },
+    "profile": {
+      "title": "Informazioni Profilo",
+      "description": "Aggiorna le tue informazioni personali",
+      "name": "Nome",
+      "namePlaceholder": "Il tuo nome",
+      "email": "Email",
+      "emailPlaceholder": "tua@email.com",
+      "submit": "Salva Modifiche",
+      "saving": "Salvataggio...",
+      "success": "Profilo aggiornato con successo",
+      "error": "Impossibile aggiornare il profilo"
+    },
+    "password": {
+      "title": "Cambia Password",
+      "description": "Aggiorna la tua password per mantenere il tuo account sicuro",
+      "currentPassword": "Password Attuale",
+      "newPassword": "Nuova Password",
+      "confirmPassword": "Conferma Nuova Password",
+      "submit": "Aggiorna Password",
+      "updating": "Aggiornamento...",
+      "success": "Password aggiornata con successo",
+      "error": "Impossibile aggiornare la password",
+      "mismatch": "Le password non corrispondono"
+    },
+    "dangerZone": {
+      "title": "Zona Pericolosa",
+      "description": "Azioni irreversibili per il tuo account",
+      "deleteAccount": {
+        "title": "Elimina Account",
+        "description": "Elimina permanentemente il tuo account e tutti i dati associati. Questa azione non puo essere annullata.",
+        "button": "Elimina Account",
+        "dialog": {
+          "title": "Sei sicuro?",
+          "description": "Questo eliminera permanentemente il tuo account e tutti i tuoi dati. Questa azione non puo essere annullata.",
+          "password": "Inserisci la tua password per confermare",
+          "cancel": "Annulla",
+          "confirm": "Elimina il Mio Account",
+          "deleting": "Eliminazione..."
+        },
+        "success": "Account eliminato con successo",
+        "error": "Impossibile eliminare l'account"
+      }
+    }
+  },
   "billing": {
     "title": "Fatturazione",
     "description": "Gestisci il tuo abbonamento e i dettagli di fatturazione",

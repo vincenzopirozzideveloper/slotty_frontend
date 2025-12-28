@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useTranslations } from "next-intl"
 import {
   Calendar,
   Home,
@@ -40,15 +41,15 @@ import { Button } from "@/components/ui/button"
 import { useAuth } from "@/contexts/auth-context"
 
 const mainNavItems = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-  { title: "Bookings", url: "/dashboard/bookings", icon: CalendarDays },
-  { title: "Calendar", url: "/dashboard/calendar", icon: Calendar },
-  { title: "Customers", url: "/dashboard/customers", icon: Users },
+  { key: "dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { key: "bookings", url: "/dashboard/bookings", icon: CalendarDays },
+  { key: "calendar", url: "/dashboard/calendar", icon: Calendar },
+  { key: "customers", url: "/dashboard/customers", icon: Users },
 ]
 
 const settingsNavItems = [
-  { title: "Settings", url: "/dashboard/settings", icon: Settings },
-  { title: "Billing", url: "/dashboard/billing", icon: CreditCard },
+  { key: "settings", url: "/dashboard/settings", icon: Settings },
+  { key: "billing", url: "/dashboard/billing", icon: CreditCard },
 ]
 
 function getInitials(name: string): string {
@@ -61,6 +62,7 @@ function getInitials(name: string): string {
 }
 
 export function AppSidebar() {
+  const t = useTranslations("sidebar")
   const pathname = usePathname()
   const { user, logout } = useAuth()
 
@@ -92,15 +94,15 @@ export function AppSidebar() {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Platform</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("platform")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {mainNavItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url} tooltip={item.title}>
+                <SidebarMenuItem key={item.key}>
+                  <SidebarMenuButton asChild isActive={pathname === item.url} tooltip={t(`nav.${item.key}`)}>
                     <Link href={item.url}>
                       <item.icon />
-                      <span>{item.title}</span>
+                      <span>{t(`nav.${item.key}`)}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -110,15 +112,15 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Settings</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("settingsGroup")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {settingsNavItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url} tooltip={item.title}>
+                <SidebarMenuItem key={item.key}>
+                  <SidebarMenuButton asChild isActive={pathname === item.url} tooltip={t(`nav.${item.key}`)}>
                     <Link href={item.url}>
                       <item.icon />
-                      <span>{item.title}</span>
+                      <span>{t(`nav.${item.key}`)}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -141,14 +143,14 @@ export function AppSidebar() {
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
                       <Zap className="h-4 w-4" />
                     </div>
-                    <span className="font-semibold">Upgrade to Pro</span>
+                    <span className="font-semibold">{t("upgrade.title")}</span>
                   </div>
                   <p className="text-xs text-primary-foreground/80 mb-3">
-                    Unlock unlimited bookings and premium features
+                    {t("upgrade.description")}
                   </p>
                   <div className="flex items-center gap-1 text-xs font-medium">
                     <Sparkles className="h-3 w-3" />
-                    <span>Starting at 4.99/mo</span>
+                    <span>{t("upgrade.price")}</span>
                   </div>
                 </div>
               </div>
@@ -200,19 +202,19 @@ export function AppSidebar() {
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard/settings">
                     <Settings className="mr-2 h-4 w-4" />
-                    Account Settings
+                    {t("menu.accountSettings")}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard/billing">
                     <CreditCard className="mr-2 h-4 w-4" />
-                    Billing
+                    {t("menu.billing")}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  Log out
+                  {t("menu.logout")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
