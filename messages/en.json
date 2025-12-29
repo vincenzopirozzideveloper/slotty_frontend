@@ -185,6 +185,33 @@
     "password": "Password",
     "billing": "Billing"
   },
+  "dashboardPage": {
+    "title": "Dashboard",
+    "welcome": "Here's an overview of your bookings and activity",
+    "viewAll": "View All",
+    "stats": {
+      "totalBookings": "Total Bookings",
+      "pendingBookings": "Pending",
+      "approvedBookings": "Approved",
+      "totalCustomers": "Customers",
+      "actionRequired": "Action required"
+    },
+    "recentBookings": {
+      "title": "Recent Bookings",
+      "description": "Your latest booking requests",
+      "empty": "No bookings yet. When clients request bookings, they will appear here."
+    },
+    "upcomingBookings": {
+      "title": "Upcoming",
+      "description": "Your confirmed appointments",
+      "empty": "No upcoming bookings. Approved bookings will appear here."
+    },
+    "time": {
+      "minutesAgo": "{count} min ago",
+      "hoursAgo": "{count}h ago",
+      "daysAgo": "{count}d ago"
+    }
+  },
   "sidebar": {
     "platform": "Platform",
     "settingsGroup": "Settings",
@@ -370,6 +397,31 @@
       "label": "Timezone",
       "saved": "Timezone updated",
       "error": "Failed to update timezone"
+    }
+  },
+  "customers": {
+    "title": "Customers",
+    "description": "View your customers and their booking history",
+    "stats": {
+      "total": "Total Customers"
+    },
+    "search": "Search by name, email or phone...",
+    "bookingsCount": "bookings",
+    "approved": "Approved",
+    "pending": "Pending",
+    "rejected": "Rejected",
+    "lastBooking": "Last booking",
+    "bookingHistory": "Booking History",
+    "noBookings": "No bookings found",
+    "requestedOn": "Requested on",
+    "pagination": {
+      "showing": "Showing {from} to {to} of {total} customers",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "empty": {
+      "title": "No customers yet",
+      "description": "When clients request bookings, they will appear here."
     }
   },
   "tokens": {

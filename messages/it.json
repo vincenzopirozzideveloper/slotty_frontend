@@ -185,6 +185,33 @@
     "password": "Password",
     "billing": "Fatturazione"
   },
+  "dashboardPage": {
+    "title": "Dashboard",
+    "welcome": "Ecco una panoramica delle tue prenotazioni e attivita",
+    "viewAll": "Vedi Tutto",
+    "stats": {
+      "totalBookings": "Prenotazioni Totali",
+      "pendingBookings": "In Attesa",
+      "approvedBookings": "Approvate",
+      "totalCustomers": "Clienti",
+      "actionRequired": "Azione richiesta"
+    },
+    "recentBookings": {
+      "title": "Prenotazioni Recenti",
+      "description": "Le tue ultime richieste di prenotazione",
+      "empty": "Nessuna prenotazione. Quando i clienti richiederanno prenotazioni, appariranno qui."
+    },
+    "upcomingBookings": {
+      "title": "Prossimi Appuntamenti",
+      "description": "I tuoi appuntamenti confermati",
+      "empty": "Nessun appuntamento in programma. Le prenotazioni approvate appariranno qui."
+    },
+    "time": {
+      "minutesAgo": "{count} min fa",
+      "hoursAgo": "{count}h fa",
+      "daysAgo": "{count}g fa"
+    }
+  },
   "sidebar": {
     "platform": "Piattaforma",
     "settingsGroup": "Impostazioni",
@@ -370,6 +397,31 @@
       "label": "Fuso Orario",
       "saved": "Fuso orario aggiornato",
       "error": "Impossibile aggiornare il fuso orario"
+    }
+  },
+  "customers": {
+    "title": "Clienti",
+    "description": "Visualizza i tuoi clienti e lo storico delle prenotazioni",
+    "stats": {
+      "total": "Clienti Totali"
+    },
+    "search": "Cerca per nome, email o telefono...",
+    "bookingsCount": "prenotazioni",
+    "approved": "Approvate",
+    "pending": "In Attesa",
+    "rejected": "Rifiutate",
+    "lastBooking": "Ultima prenotazione",
+    "bookingHistory": "Storico Prenotazioni",
+    "noBookings": "Nessuna prenotazione trovata",
+    "requestedOn": "Richiesta il",
+    "pagination": {
+      "showing": "Mostrando da {from} a {to} di {total} clienti",
+      "previous": "Precedente",
+      "next": "Successivo"
+    },
+    "empty": {
+      "title": "Nessun cliente",
+      "description": "Quando i clienti richiedono prenotazioni, appariranno qui."
     }
   },
   "tokens": {
