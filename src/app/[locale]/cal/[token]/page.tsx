@@ -47,8 +47,9 @@ export default function PublicBookingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [bookingModalOpen, setBookingModalOpen] = useState(false)
 
-  // Timezone (could be from user settings)
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  // Timezone - defaults to browser timezone
+  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const [timezone, setTimezone] = useState(browserTimezone)
 
   // Fetch initial calendar data
   useEffect(() => {
@@ -247,6 +248,7 @@ export default function PublicBookingPage() {
           calendar={calendar}
           selectedTimeslot={selectedSlot ? `${selectedDate}T${selectedSlot.start_time}` : null}
           timezone={timezone}
+          onTimezoneChange={setTimezone}
         />
 
         {/* Calendar */}
@@ -330,6 +332,7 @@ export default function PublicBookingPage() {
             calendar={calendar}
             selectedTimeslot={selectedSlot ? `${selectedDate}T${selectedSlot.start_time}` : null}
             timezone={timezone}
+            onTimezoneChange={setTimezone}
           />
 
           {/* DatePicker in sidebar for week/column view */}

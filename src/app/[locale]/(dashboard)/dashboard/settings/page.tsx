@@ -9,9 +9,38 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PasswordInput } from "@/components/ui/password-input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { useAuth } from "@/contexts/auth-context"
 import { settingsApi } from "@/lib/api/settings"
-import { User, Settings, AlertTriangle, Loader2 } from "lucide-react"
+import { User, Settings, AlertTriangle, Loader2, Globe } from "lucide-react"
+
+const TIMEZONES = [
+  { value: "Europe/Rome", label: "Rome (CET/CEST)" },
+  { value: "Europe/London", label: "London (GMT/BST)" },
+  { value: "Europe/Paris", label: "Paris (CET/CEST)" },
+  { value: "Europe/Berlin", label: "Berlin (CET/CEST)" },
+  { value: "Europe/Madrid", label: "Madrid (CET/CEST)" },
+  { value: "Europe/Amsterdam", label: "Amsterdam (CET/CEST)" },
+  { value: "Europe/Zurich", label: "Zurich (CET/CEST)" },
+  { value: "Europe/Vienna", label: "Vienna (CET/CEST)" },
+  { value: "Europe/Brussels", label: "Brussels (CET/CEST)" },
+  { value: "America/New_York", label: "New York (EST/EDT)" },
+  { value: "America/Los_Angeles", label: "Los Angeles (PST/PDT)" },
+  { value: "America/Chicago", label: "Chicago (CST/CDT)" },
+  { value: "America/Sao_Paulo", label: "Sao Paulo (BRT)" },
+  { value: "Asia/Tokyo", label: "Tokyo (JST)" },
+  { value: "Asia/Shanghai", label: "Shanghai (CST)" },
+  { value: "Asia/Dubai", label: "Dubai (GST)" },
+  { value: "Asia/Singapore", label: "Singapore (SGT)" },
+  { value: "Australia/Sydney", label: "Sydney (AEST/AEDT)" },
+  { value: "UTC", label: "UTC" },
+]
 
 export default function SettingsPage() {
   const t = useTranslations("settings")
@@ -21,6 +50,7 @@ export default function SettingsPage() {
   // Profile form state
   const [profileName, setProfileName] = useState(user?.name ?? "")
   const [profileEmail, setProfileEmail] = useState(user?.email ?? "")
+  const [profileTimezone, setProfileTimezone] = useState(user?.timezone ?? "Europe/Rome")
   const [profileLoading, setProfileLoading] = useState(false)
   const [profileError, setProfileError] = useState("")
   const [profileSuccess, setProfileSuccess] = useState(false)
@@ -49,6 +79,7 @@ export default function SettingsPage() {
       await settingsApi.updateProfile({
         name: profileName,
         email: profileEmail,
+        timezone: profileTimezone,
       })
       await refreshUser()
       setProfileSuccess(true)
@@ -167,6 +198,27 @@ export default function SettingsPage() {
                     onChange={(e) => setProfileEmail(e.target.value)}
                     placeholder={t("profile.emailPlaceholder")}
                   />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="timezone" className="flex items-center gap-2">
+                    <Globe className="h-4 w-4" />
+                    {t("profile.timezone")}
+                  </Label>
+                  <Select value={profileTimezone} onValueChange={setProfileTimezone}>
+                    <SelectTrigger id="timezone">
+                      <SelectValue placeholder={t("profile.timezonePlaceholder")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TIMEZONES.map((tz) => (
+                        <SelectItem key={tz.value} value={tz.value}>
+                          {tz.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">
+                    {t("profile.timezoneHint")}
+                  </p>
                 </div>
 
                 {profileError && (

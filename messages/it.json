@@ -191,7 +191,7 @@
     "nav": {
       "dashboard": "Dashboard",
       "bookings": "Prenotazioni",
-      "calendar": "Calendario",
+      "calendar": "Disponibilità",
       "tokens": "Link Pubblici",
       "customers": "Clienti",
       "settings": "Impostazioni",
@@ -223,6 +223,9 @@
       "namePlaceholder": "Il tuo nome",
       "email": "Email",
       "emailPlaceholder": "tua@email.com",
+      "timezone": "Fuso Orario",
+      "timezonePlaceholder": "Seleziona il tuo fuso orario",
+      "timezoneHint": "Gli orari del calendario saranno visualizzati in questo fuso orario",
       "submit": "Salva Modifiche",
       "saving": "Salvataggio...",
       "success": "Profilo aggiornato con successo",

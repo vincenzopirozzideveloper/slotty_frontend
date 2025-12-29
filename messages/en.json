@@ -191,7 +191,7 @@
     "nav": {
       "dashboard": "Dashboard",
       "bookings": "Bookings",
-      "calendar": "Calendar",
+      "calendar": "Availability",
       "tokens": "Public Links",
       "customers": "Customers",
       "settings": "Settings",
@@ -223,6 +223,9 @@
       "namePlaceholder": "Your name",
       "email": "Email",
       "emailPlaceholder": "your@email.com",
+      "timezone": "Timezone",
+      "timezonePlaceholder": "Select your timezone",
+      "timezoneHint": "Your calendar times will be displayed in this timezone",
       "submit": "Save Changes",
       "saving": "Saving...",
       "success": "Profile updated successfully",

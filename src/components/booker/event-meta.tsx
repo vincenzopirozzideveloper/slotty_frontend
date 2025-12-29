@@ -3,12 +3,33 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
   CheckSquare,
   Clock,
   MapPin,
   Globe,
 } from "lucide-react"
 import type { CalendarInfo } from "@/lib/api/public-calendar"
+
+const COMMON_TIMEZONES = [
+  { value: "Europe/Rome", label: "Rome (CET)" },
+  { value: "Europe/London", label: "London (GMT)" },
+  { value: "Europe/Paris", label: "Paris (CET)" },
+  { value: "Europe/Berlin", label: "Berlin (CET)" },
+  { value: "America/New_York", label: "New York (EST)" },
+  { value: "America/Los_Angeles", label: "Los Angeles (PST)" },
+  { value: "America/Chicago", label: "Chicago (CST)" },
+  { value: "Asia/Tokyo", label: "Tokyo (JST)" },
+  { value: "Asia/Dubai", label: "Dubai (GST)" },
+  { value: "Australia/Sydney", label: "Sydney (AEST)" },
+  { value: "UTC", label: "UTC" },
+]
 
 interface EventMetaProps {
   calendar: CalendarInfo
@@ -21,6 +42,7 @@ export function EventMeta({
   calendar,
   selectedTimeslot,
   timezone,
+  onTimezoneChange,
 }: EventMetaProps) {
   const owner = calendar.owner
   const settings = calendar.settings
@@ -79,8 +101,23 @@ export function EventMeta({
         )}
 
         <div className="flex items-center gap-2 text-sm">
-          <Globe className="h-4 w-4 text-muted-foreground" />
-          <span className="text-muted-foreground">{timezone}</span>
+          <Globe className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+          {onTimezoneChange ? (
+            <Select value={timezone} onValueChange={onTimezoneChange}>
+              <SelectTrigger className="h-7 text-xs border-0 bg-transparent hover:bg-muted/50 p-1 -ml-1">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {COMMON_TIMEZONES.map((tz) => (
+                  <SelectItem key={tz.value} value={tz.value} className="text-xs">
+                    {tz.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ) : (
+            <span className="text-muted-foreground">{timezone}</span>
+          )}
         </div>
       </div>
 

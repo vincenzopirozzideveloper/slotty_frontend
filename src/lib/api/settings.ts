@@ -4,6 +4,7 @@ import type { User } from "@/contexts/auth-context"
 export interface UpdateProfileRequest {
   name: string
   email: string
+  timezone?: string
 }
 
 export interface UpdateProfileResponse {
