@@ -30,11 +30,11 @@ export interface MonthAvailability {
 }
 
 export interface TimeSlot {
-  id: number
+  id?: number
   start_time: string
   end_time: string
   status: "available" | "booked"
-  formatted: string
+  formatted?: string
 }
 
 export interface DaySlots {

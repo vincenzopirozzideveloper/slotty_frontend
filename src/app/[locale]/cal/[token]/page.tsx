@@ -238,7 +238,79 @@ export default function PublicBookingPage() {
 
   const isTimeSlotsMode = calendar.booking_mode === "time_slots"
 
-  return (
+  // Mobile layout (single column)
+  const renderMobileLayout = () => (
+    <div className="min-h-screen bg-background">
+      <div className="max-w-lg mx-auto px-4 py-6 space-y-6">
+        {/* Meta info */}
+        <EventMeta
+          calendar={calendar}
+          selectedTimeslot={selectedSlot ? `${selectedDate}T${selectedSlot.start_time}` : null}
+          timezone={timezone}
+        />
+
+        {/* Calendar */}
+        <div className="border-t pt-6">
+          <BookerDatePicker
+            monthData={monthData}
+            selectedDate={selectedDate}
+            onSelectDate={handleDateSelect}
+            onMonthChange={handleMonthChange}
+          />
+        </div>
+
+        {/* Time slots (when date selected and time_slots mode) */}
+        {isTimeSlotsMode && selectedDate && bookerState !== "booking" && (
+          <div className="border-t pt-6">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-medium">
+                {new Date(selectedDate).toLocaleDateString("default", {
+                  weekday: "short",
+                  day: "numeric",
+                })}
+              </span>
+              <TimeFormatToggle value={timeFormat} onChange={setTimeFormat} />
+            </div>
+            <AvailableTimeSlots
+              date={selectedDate}
+              slots={daySlots}
+              selectedSlot={selectedSlot}
+              onSelectSlot={handleSlotSelect}
+              isLoading={slotsLoading}
+              timeFormat={timeFormat}
+            />
+          </div>
+        )}
+
+        {/* Booking form (when slot selected) */}
+        {bookerState === "booking" && (
+          <div className="border-t pt-6">
+            <BookingForm
+              selectedDate={selectedDate!}
+              selectedSlot={selectedSlot}
+              bookingMode={calendar.booking_mode}
+              onSubmit={handleBookingSubmit}
+              onCancel={handleCancelBooking}
+              isSubmitting={isSubmitting}
+            />
+          </div>
+        )}
+
+        {/* Footer */}
+        <div className="text-center pt-4 border-t">
+          <a
+            href="/"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Powered by Slotty
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+
+  // Desktop layout (grid)
+  const renderDesktopLayout = () => (
     <div className={cn(
       "min-h-screen bg-muted/30",
       layout === "month" && "flex items-center justify-center p-4",
@@ -322,11 +394,11 @@ export default function PublicBookingPage() {
                     (s) => s.status === "available" && s.start_time <= time && s.end_time > time
                   )
                   if (slot) {
-                    // Create a virtual slot for the clicked hour
+                    // Create a virtual slot for the clicked hour (no id - it's virtual)
                     const clickedSlot: TimeSlot = {
-                      ...slot,
                       start_time: time,
                       end_time: `${String(parseInt(time.split(":")[0]) + 1).padStart(2, "0")}:00`,
+                      status: "available",
                     }
                     setSelectedSlot(clickedSlot)
                     setBookingModalOpen(true)
@@ -432,5 +504,19 @@ export default function PublicBookingPage() {
         </div>
       )}
     </div>
+  )
+
+  // Return statement with responsive layout switching
+  return (
+    <>
+      {/* Mobile layout - visible on small screens */}
+      <div className="block md:hidden">
+        {renderMobileLayout()}
+      </div>
+      {/* Desktop layout - visible on medium screens and up */}
+      <div className="hidden md:block h-screen">
+        {renderDesktopLayout()}
+      </div>
+    </>
   )
 }
