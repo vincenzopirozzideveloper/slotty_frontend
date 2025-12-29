@@ -2,25 +2,15 @@
 
 This file provides guidance to Claude Code when working with this Next.js frontend project.
 
-## Environment Constraints
+## Environment & Permissions
 
-**IMPORTANT:** This development environment has:
-- VSCode with source files access
-- **NO runtime execution capabilities**
-- **NO npm/node/pnpm commands**
-- Commands must be executed by the user in the Docker container
-
-**Implications:**
-- You can READ, EDIT, and ANALYZE code
-- You CANNOT run `npm install`, `npm run build`, `npm run dev`
-- You CANNOT execute any shell commands in the container
-- When dependencies are needed, **tell the user** to run the command
-
-**Example:**
+**IMPORTANTE:** Dopo OGNI modifica ai file, eseguire:
+```bash
+chown -R root:33 . && chmod -R g=u .
 ```
-Per installare la dipendenza, esegui nel container frontend:
-npm install @radix-ui/react-slider
-```
+Questo imposta i permessi corretti per www-data (gruppo 33).
+
+**ESEGUIRE SEMPRE questo comando dopo modifiche - NON suggerire all'utente, ESEGUIRLO DIRETTAMENTE.**
 
 ## Project Overview
 

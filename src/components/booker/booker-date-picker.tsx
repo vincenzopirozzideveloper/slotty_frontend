@@ -100,8 +100,13 @@ export function BookerDatePicker({
     const inRange = isInRange(day.date)
     const isToday = day.date === today.toISOString().split("T")[0]
     const isAvailable = day.status === "available"
-    const isBooked = day.status === "booked"
+    // Handle both "booked" and "fully_booked" from backend
+    const isBooked = day.status === "booked" || day.status === "fully_booked"
     const isPast = day.status === "past"
+    // Handle all blocked/unavailable statuses
+    const isBlocked = day.status === "blocked" || day.status === "closed" ||
+                      day.status === "too_soon" || day.status === "too_far" ||
+                      day.status === "unavailable"
 
     return cn(
       "aspect-square font-medium transition-colors",
@@ -115,9 +120,9 @@ export function BookerDatePicker({
       // Single date selection styles
       !rangeMode && isSelected && "bg-primary text-primary-foreground rounded-md",
       !isSelected && !isEnd && !inRange && isAvailable && "bg-muted hover:bg-primary/20 cursor-pointer rounded-md",
-      !isSelected && !isEnd && !inRange && isBooked && "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200 rounded-md",
+      !isSelected && !isEnd && !inRange && isBooked && "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200 rounded-md cursor-not-allowed",
       !isSelected && !isEnd && !inRange && isPast && "text-muted-foreground/50 rounded-md",
-      !isSelected && !isEnd && !inRange && day.status === "blocked" && "text-muted-foreground/30 rounded-md",
+      !isSelected && !isEnd && !inRange && isBlocked && "text-muted-foreground/30 rounded-md",
       isToday && !isSelected && !isEnd && "ring-1 ring-primary ring-offset-1"
     )
   }

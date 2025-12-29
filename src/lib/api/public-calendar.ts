@@ -19,7 +19,8 @@ export interface CalendarInfo {
 
 export interface DayAvailability {
   date: string
-  status: "available" | "booked" | "blocked" | "past"
+  // Backend statuses: available, fully_booked, closed, too_soon, too_far, past, unavailable
+  status: "available" | "fully_booked" | "booked" | "closed" | "blocked" | "too_soon" | "too_far" | "past" | "unavailable"
   slots_count?: number
 }
 
