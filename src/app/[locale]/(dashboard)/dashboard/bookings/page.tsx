@@ -6,6 +6,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { bookingsApi, type Booking, type BookingsStats } from "@/lib/api/bookings"
 import {
   Calendar,
@@ -20,6 +30,7 @@ import {
   Users,
   CheckCircle,
   XCircle,
+  Trash2,
 } from "lucide-react"
 
 export default function BookingsPage() {
@@ -29,6 +40,7 @@ export default function BookingsPage() {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("all")
   const [actionLoading, setActionLoading] = useState<number | null>(null)
+  const [deleteBookingId, setDeleteBookingId] = useState<number | null>(null)
 
   const fetchBookings = useCallback(async (status?: string) => {
     setLoading(true)
@@ -68,6 +80,21 @@ export default function BookingsPage() {
       console.error("Failed to reject booking:", error)
     } finally {
       setActionLoading(null)
+    }
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (deleteBookingId === null) return
+
+    setActionLoading(deleteBookingId)
+    try {
+      await bookingsApi.deleteBooking(deleteBookingId)
+      fetchBookings(activeTab)
+    } catch (error) {
+      console.error("Failed to delete booking:", error)
+    } finally {
+      setActionLoading(null)
+      setDeleteBookingId(null)
     }
   }
 
@@ -223,37 +250,53 @@ export default function BookingsPage() {
                         )}
                       </div>
 
-                      {booking.status === "pending" && (
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            onClick={() => handleApprove(booking.id)}
-                            disabled={actionLoading === booking.id}
-                            className="gap-1"
-                          >
-                            {actionLoading === booking.id ? (
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            ) : (
-                              <Check className="h-4 w-4" />
-                            )}
-                            {t("actions.approve")}
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleReject(booking.id)}
-                            disabled={actionLoading === booking.id}
-                            className="gap-1"
-                          >
-                            {actionLoading === booking.id ? (
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            ) : (
-                              <X className="h-4 w-4" />
-                            )}
-                            {t("actions.reject")}
-                          </Button>
-                        </div>
-                      )}
+                      <div className="flex gap-2">
+                        {booking.status === "pending" && (
+                          <>
+                            <Button
+                              size="sm"
+                              onClick={() => handleApprove(booking.id)}
+                              disabled={actionLoading === booking.id}
+                              className="gap-1"
+                            >
+                              {actionLoading === booking.id ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <Check className="h-4 w-4" />
+                              )}
+                              {t("actions.approve")}
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleReject(booking.id)}
+                              disabled={actionLoading === booking.id}
+                              className="gap-1"
+                            >
+                              {actionLoading === booking.id ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <X className="h-4 w-4" />
+                              )}
+                              {t("actions.reject")}
+                            </Button>
+                          </>
+                        )}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => setDeleteBookingId(booking.id)}
+                          disabled={actionLoading === booking.id}
+                          className="gap-1 text-destructive hover:text-destructive hover:bg-destructive/10"
+                        >
+                          {actionLoading === booking.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
+                          {t("actions.delete")}
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -262,6 +305,32 @@ export default function BookingsPage() {
           )}
         </TabsContent>
       </Tabs>
+
+      <AlertDialog open={deleteBookingId !== null} onOpenChange={(open) => !open && setDeleteBookingId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("actions.deleteDialogTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("actions.deleteConfirm")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={actionLoading !== null}>
+              {t("actions.cancel")}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              disabled={actionLoading !== null}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {actionLoading !== null ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : null}
+              {t("actions.confirmDelete")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

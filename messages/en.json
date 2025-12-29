@@ -320,7 +320,12 @@
     },
     "actions": {
       "approve": "Approve",
-      "reject": "Reject"
+      "reject": "Reject",
+      "delete": "Delete",
+      "deleteDialogTitle": "Delete Booking",
+      "deleteConfirm": "Are you sure you want to delete this booking? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirmDelete": "Delete"
     },
     "multiDay": "Multi-day",
     "empty": {

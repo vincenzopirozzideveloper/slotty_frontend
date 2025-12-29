@@ -320,7 +320,12 @@
     },
     "actions": {
       "approve": "Approva",
-      "reject": "Rifiuta"
+      "reject": "Rifiuta",
+      "delete": "Elimina",
+      "deleteDialogTitle": "Elimina Prenotazione",
+      "deleteConfirm": "Sei sicuro di voler eliminare questa prenotazione? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "confirmDelete": "Elimina"
     },
     "multiDay": "Multi-giorno",
     "empty": {

@@ -66,4 +66,8 @@ export const bookingsApi = {
     const response = await api.put<{ booking: Booking }>(`/bookings/${id}/reject`, data || {})
     return response.data.booking
   },
+
+  async deleteBooking(id: number): Promise<void> {
+    await api.delete(`/bookings/${id}`)
+  },
 }
