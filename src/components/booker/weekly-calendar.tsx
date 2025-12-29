@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { cn } from "@/lib/utils"
 import type { TimeSlot } from "@/lib/api/public-calendar"
+import { dayjs } from "@/lib/dayjs"
 
 interface WeeklyCalendarProps {
   startDate: Date
@@ -13,6 +14,8 @@ interface WeeklyCalendarProps {
   timeFormat: "12h" | "24h"
   startHour?: number
   endHour?: number
+  ownerTimezone?: string
+  displayTimezone?: string
 }
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i)
@@ -26,6 +29,8 @@ export function WeeklyCalendar({
   timeFormat,
   startHour = 0,
   endHour = 23,
+  ownerTimezone = "Europe/Rome",
+  displayTimezone,
 }: WeeklyCalendarProps) {
   // Generate dates for the week
   const dates = useMemo(() => {
@@ -39,7 +44,25 @@ export function WeeklyCalendar({
   // Filter hours to display
   const displayHours = HOURS.filter((h) => h >= startHour && h <= endHour)
 
-  const formatHour = (hour: number) => {
+  const getDateKey = (date: Date) => {
+    return date.toISOString().split("T")[0]
+  }
+
+  const formatHour = (hour: number, date?: Date) => {
+    // If we have both timezones and they differ, convert
+    if (displayTimezone && ownerTimezone && displayTimezone !== ownerTimezone && date) {
+      const dateKey = getDateKey(date)
+      const timeStr = `${String(hour).padStart(2, "0")}:00`
+      const dateTimeInOwnerTz = dayjs.tz(`${dateKey}T${timeStr}`, ownerTimezone)
+      const dateTimeInDisplayTz = dateTimeInOwnerTz.tz(displayTimezone)
+
+      if (timeFormat === "12h") {
+        return dateTimeInDisplayTz.format("h:mma")
+      }
+      return dateTimeInDisplayTz.format("HH:mm")
+    }
+
+    // No conversion needed
     if (timeFormat === "12h") {
       const period = hour >= 12 ? "pm" : "am"
       const displayHour = hour % 12 || 12
@@ -55,10 +78,6 @@ export function WeeklyCalendar({
     const isToday = new Date().toDateString() === date.toDateString()
 
     return { dayName, dayNum, month, isToday }
-  }
-
-  const getDateKey = (date: Date) => {
-    return date.toISOString().split("T")[0]
   }
 
   const isSlotAvailable = (date: Date, hour: number) => {

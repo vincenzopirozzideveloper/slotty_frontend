@@ -280,6 +280,8 @@ export default function PublicBookingPage() {
               onSelectSlot={handleSlotSelect}
               isLoading={slotsLoading}
               timeFormat={timeFormat}
+              ownerTimezone={calendar.settings?.timezone || "Europe/Rome"}
+              displayTimezone={timezone}
             />
           </div>
         )}
@@ -413,6 +415,8 @@ export default function PublicBookingPage() {
                     : null
                 }
                 timeFormat={timeFormat}
+                ownerTimezone={calendar.settings?.timezone || "Europe/Rome"}
+                displayTimezone={timezone}
               />
             ) : layout === "column" ? (
               <ColumnCalendar
@@ -431,6 +435,8 @@ export default function PublicBookingPage() {
                 }
                 timeFormat={timeFormat}
                 isLoading={slotsLoading}
+                ownerTimezone={calendar.settings?.timezone || "Europe/Rome"}
+                displayTimezone={timezone}
               />
             ) : null}
           </div>
@@ -458,6 +464,8 @@ export default function PublicBookingPage() {
               onSelectSlot={handleSlotSelect}
               isLoading={slotsLoading}
               timeFormat={timeFormat}
+              ownerTimezone={calendar.settings?.timezone || "Europe/Rome"}
+              displayTimezone={timezone}
             />
           </div>
         )}

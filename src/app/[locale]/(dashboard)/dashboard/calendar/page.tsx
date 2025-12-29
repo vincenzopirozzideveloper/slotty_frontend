@@ -32,7 +32,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Calendar } from "@/components/ui/calendar"
-import { calendarApi, type DaySchedule, type TimeBlock, type DateOverride } from "@/lib/api/calendar"
+import { calendarApi, type TimeBlock, type DateOverride } from "@/lib/api/calendar"
 import {
   Plus,
   Trash2,
@@ -41,8 +41,16 @@ import {
   CalendarDays,
   Clock,
   X,
+  Globe,
+  Save,
+  AlertTriangle,
+  RotateCcw,
 } from "lucide-react"
 import { toast } from "sonner"
+import { TimezoneSelect } from "@/components/timezone-select"
+import { useAuth } from "@/contexts/auth-context"
+import { settingsApi } from "@/lib/api/settings"
+import { cn } from "@/lib/utils"
 
 const DAYS_OF_WEEK = [
   { key: "monday", index: 1 },
@@ -69,11 +77,20 @@ interface ScheduleDay {
 export default function CalendarPage() {
   const t = useTranslations("calendar")
   const tDays = useTranslations("calendar.days")
+  const { user, refreshUser } = useAuth()
+
+  // Data state
   const [schedule, setSchedule] = useState<ScheduleDay[]>([])
   const [overrides, setOverrides] = useState<DateOverride[]>([])
+  const [userTimezone, setUserTimezone] = useState(user?.timezone || "Europe/Rome")
+
+  // Original state for comparison
+  const [originalSchedule, setOriginalSchedule] = useState<ScheduleDay[]>([])
+  const [originalTimezone, setOriginalTimezone] = useState(user?.timezone || "Europe/Rome")
+
+  // UI state
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [hasChanges, setHasChanges] = useState(false)
 
   // Override dialog state
   const [overrideDialogOpen, setOverrideDialogOpen] = useState(false)
@@ -81,6 +98,25 @@ export default function CalendarPage() {
   const [overrideAvailable, setOverrideAvailable] = useState(true)
   const [overrideTimeBlocks, setOverrideTimeBlocks] = useState<TimeBlock[]>([{ start: "09:00", end: "17:00" }])
   const [savingOverride, setSavingOverride] = useState(false)
+
+  // Check if there are unsaved changes
+  const hasScheduleChanges = JSON.stringify(schedule) !== JSON.stringify(originalSchedule)
+  const hasTimezoneChanges = userTimezone !== originalTimezone
+  const hasChanges = hasScheduleChanges || hasTimezoneChanges
+
+  // Warn before leaving page with unsaved changes
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasChanges) {
+        e.preventDefault()
+        e.returnValue = ""
+        return ""
+      }
+    }
+
+    window.addEventListener("beforeunload", handleBeforeUnload)
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload)
+  }, [hasChanges])
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -90,7 +126,6 @@ export default function CalendarPage() {
         calendarApi.getOverrides(),
       ])
 
-      // Transform API data to local format
       const transformedSchedule = DAYS_OF_WEEK.map(day => {
         const apiDay = scheduleData.find(s => s.day_of_week === day.index)
         return {
@@ -101,6 +136,7 @@ export default function CalendarPage() {
       })
 
       setSchedule(transformedSchedule)
+      setOriginalSchedule(transformedSchedule)
       setOverrides(overridesData)
     } catch (error) {
       console.error("Failed to fetch calendar data:", error)
@@ -113,6 +149,13 @@ export default function CalendarPage() {
   useEffect(() => {
     fetchData()
   }, [fetchData])
+
+  useEffect(() => {
+    if (user?.timezone) {
+      setUserTimezone(user.timezone)
+      setOriginalTimezone(user.timezone)
+    }
+  }, [user?.timezone])
 
   const handleToggleDay = (dayIndex: number) => {
     setSchedule(prev => prev.map(day => {
@@ -128,7 +171,6 @@ export default function CalendarPage() {
       }
       return day
     }))
-    setHasChanges(true)
   }
 
   const handleAddTimeBlock = (dayIndex: number) => {
@@ -144,7 +186,6 @@ export default function CalendarPage() {
       }
       return day
     }))
-    setHasChanges(true)
   }
 
   const handleRemoveTimeBlock = (dayIndex: number, blockIndex: number) => {
@@ -159,7 +200,6 @@ export default function CalendarPage() {
       }
       return day
     }))
-    setHasChanges(true)
   }
 
   const handleTimeChange = (dayIndex: number, blockIndex: number, field: "start" | "end", value: string) => {
@@ -171,7 +211,6 @@ export default function CalendarPage() {
       }
       return day
     }))
-    setHasChanges(true)
   }
 
   const handleCopyToOtherDays = (sourceDayIndex: number, targetDays: number[]) => {
@@ -188,28 +227,61 @@ export default function CalendarPage() {
       }
       return day
     }))
-    setHasChanges(true)
     toast.success("Schedule copied")
   }
 
-  const handleSaveSchedule = async () => {
+  const handleTimezoneChange = (newTimezone: string) => {
+    setUserTimezone(newTimezone)
+  }
+
+  const handleSaveAll = async () => {
     setSaving(true)
     try {
-      await calendarApi.updateSchedule({
-        schedule: schedule.map(day => ({
-          day_of_week: day.dayOfWeek,
-          is_available: day.isAvailable,
-          time_blocks: day.timeBlocks,
-        })),
-      })
-      setHasChanges(false)
+      const promises: Promise<unknown>[] = []
+
+      if (hasScheduleChanges) {
+        promises.push(
+          calendarApi.updateSchedule({
+            schedule: schedule.map(day => ({
+              day_of_week: day.dayOfWeek,
+              is_available: day.isAvailable,
+              time_blocks: day.timeBlocks,
+            })),
+          })
+        )
+      }
+
+      if (hasTimezoneChanges) {
+        promises.push(
+          settingsApi.updateProfile({
+            name: user?.name || "",
+            email: user?.email || "",
+            timezone: userTimezone,
+          })
+        )
+      }
+
+      await Promise.all(promises)
+
+      setOriginalSchedule(JSON.parse(JSON.stringify(schedule)))
+      setOriginalTimezone(userTimezone)
+
+      if (hasTimezoneChanges) {
+        await refreshUser()
+      }
+
       toast.success(t("schedule.saved"))
     } catch (error) {
-      console.error("Failed to save schedule:", error)
-      toast.error("Failed to save schedule")
+      console.error("Failed to save:", error)
+      toast.error("Failed to save changes")
     } finally {
       setSaving(false)
     }
+  }
+
+  const handleDiscardChanges = () => {
+    setSchedule(JSON.parse(JSON.stringify(originalSchedule)))
+    setUserTimezone(originalTimezone)
   }
 
   const handleCreateOverride = async () => {
@@ -266,32 +338,101 @@ export default function CalendarPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
-        <p className="text-muted-foreground">{t("description")}</p>
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
+          <p className="text-muted-foreground">{t("description")}</p>
+        </div>
+
+        {/* Save/Discard buttons */}
+        {hasChanges && (
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDiscardChanges}
+            >
+              <RotateCcw className="mr-2 h-4 w-4" />
+              Annulla
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleSaveAll}
+              disabled={saving}
+              className="bg-primary"
+            >
+              {saving ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Salvataggio...
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  Salva Modifiche
+                </>
+              )}
+            </Button>
+          </div>
+        )}
       </div>
+
+      {/* Unsaved changes banner - mobile only */}
+      {hasChanges && (
+        <div className="sm:hidden flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/50 p-3">
+          <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500 flex-shrink-0" />
+          <span className="text-sm text-amber-800 dark:text-amber-200">
+            Modifiche non salvate
+          </span>
+        </div>
+      )}
+
+      {/* Timezone Card */}
+      <Card>
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Globe className="h-5 w-5 text-muted-foreground" />
+              <CardTitle className="text-base">{t("timezone.label")}</CardTitle>
+            </div>
+            {hasTimezoneChanges && (
+              <Badge variant="secondary" className="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200">
+                Modificato
+              </Badge>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <TimezoneSelect
+              value={userTimezone}
+              onChange={handleTimezoneChange}
+              showIcon={false}
+            />
+            <p className="text-sm text-muted-foreground">
+              Gli orari verranno mostrati in questo fuso orario
+            </p>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Weekly Schedule */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>{t("schedule.title")}</CardTitle>
-              <CardDescription>{t("schedule.description")}</CardDescription>
+            <div className="flex items-center gap-2">
+              <Clock className="h-5 w-5 text-muted-foreground" />
+              <div>
+                <CardTitle>{t("schedule.title")}</CardTitle>
+                <CardDescription>{t("schedule.description")}</CardDescription>
+              </div>
             </div>
-            <Button
-              onClick={handleSaveSchedule}
-              disabled={!hasChanges || saving}
-            >
-              {saving ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t("schedule.saving")}
-                </>
-              ) : (
-                t("schedule.save")
-              )}
-            </Button>
+            {hasScheduleChanges && (
+              <Badge variant="secondary" className="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200">
+                Modificato
+              </Badge>
+            )}
           </div>
         </CardHeader>
         <CardContent>
@@ -305,7 +446,6 @@ export default function CalendarPage() {
                   key={day.key}
                   className="flex flex-col gap-4 py-4 border-b last:border-b-0 sm:flex-row sm:items-start"
                 >
-                  {/* Day Toggle */}
                   <div className="flex items-center gap-3 sm:w-36">
                     <Switch
                       checked={scheduleDay.isAvailable}
@@ -316,12 +456,11 @@ export default function CalendarPage() {
                     </Label>
                   </div>
 
-                  {/* Time Blocks */}
                   <div className="flex-1">
                     {scheduleDay.isAvailable ? (
                       <div className="space-y-2">
                         {scheduleDay.timeBlocks.map((block, blockIndex) => (
-                          <div key={blockIndex} className="flex items-center gap-2">
+                          <div key={blockIndex} className="flex items-center gap-2 flex-wrap">
                             <Select
                               value={block.start}
                               onValueChange={(value) => handleTimeChange(day.index, blockIndex, "start", value)}
@@ -350,34 +489,36 @@ export default function CalendarPage() {
                               </SelectContent>
                             </Select>
 
-                            {blockIndex === 0 ? (
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleAddTimeBlock(day.index)}
-                                className="h-8 w-8"
-                              >
-                                <Plus className="h-4 w-4" />
-                              </Button>
-                            ) : (
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleRemoveTimeBlock(day.index, blockIndex)}
-                                className="h-8 w-8 text-destructive hover:text-destructive"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            )}
+                            <div className="flex items-center gap-1">
+                              {blockIndex === 0 ? (
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => handleAddTimeBlock(day.index)}
+                                  className="h-8 w-8"
+                                >
+                                  <Plus className="h-4 w-4" />
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => handleRemoveTimeBlock(day.index, blockIndex)}
+                                  className="h-8 w-8 text-destructive hover:text-destructive"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              )}
 
-                            {blockIndex === 0 && (
-                              <CopyDropdown
-                                sourceDayIndex={day.index}
-                                allDays={DAYS_OF_WEEK}
-                                getDayName={getDayName}
-                                onCopy={(targetDays) => handleCopyToOtherDays(day.index, targetDays)}
-                              />
-                            )}
+                              {blockIndex === 0 && (
+                                <CopyDropdown
+                                  sourceDayIndex={day.index}
+                                  allDays={DAYS_OF_WEEK}
+                                  getDayName={getDayName}
+                                  onCopy={(targetDays) => handleCopyToOtherDays(day.index, targetDays)}
+                                />
+                              )}
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -398,9 +539,12 @@ export default function CalendarPage() {
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>{t("overrides.title")}</CardTitle>
-              <CardDescription>{t("overrides.description")}</CardDescription>
+            <div className="flex items-center gap-2">
+              <CalendarDays className="h-5 w-5 text-muted-foreground" />
+              <div>
+                <CardTitle>{t("overrides.title")}</CardTitle>
+                <CardDescription>{t("overrides.description")}</CardDescription>
+              </div>
             </div>
             <Dialog open={overrideDialogOpen} onOpenChange={setOverrideDialogOpen}>
               <DialogTrigger asChild>

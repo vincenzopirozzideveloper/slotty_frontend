@@ -2,9 +2,9 @@
 
 import { useMemo } from "react"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import type { TimeSlot } from "@/lib/api/public-calendar"
+import { dayjs, convertToTimezone } from "@/lib/dayjs"
 
 interface AvailableTimeSlotsProps {
   date: string | null
@@ -13,6 +13,8 @@ interface AvailableTimeSlotsProps {
   onSelectSlot: (slot: TimeSlot) => void
   isLoading?: boolean
   timeFormat: "12h" | "24h"
+  ownerTimezone?: string  // Timezone of the calendar owner
+  displayTimezone?: string  // Timezone selected by the viewer
 }
 
 export function AvailableTimeSlots({
@@ -22,6 +24,8 @@ export function AvailableTimeSlots({
   onSelectSlot,
   isLoading,
   timeFormat,
+  ownerTimezone = "Europe/Rome",
+  displayTimezone,
 }: AvailableTimeSlotsProps) {
   const formattedDate = useMemo(() => {
     if (!date) return ""
@@ -33,7 +37,25 @@ export function AvailableTimeSlots({
     })
   }, [date])
 
+  // Convert time from owner's timezone to display timezone
   const formatTime = (time: string) => {
+    if (!date) return time
+
+    // If we have both timezones and they differ, convert
+    if (displayTimezone && ownerTimezone && displayTimezone !== ownerTimezone) {
+      // Create a datetime in the owner's timezone
+      const dateTimeInOwnerTz = dayjs.tz(`${date}T${time}`, ownerTimezone)
+      // Convert to display timezone
+      const dateTimeInDisplayTz = dateTimeInOwnerTz.tz(displayTimezone)
+
+      // Format based on preference
+      if (timeFormat === "12h") {
+        return dateTimeInDisplayTz.format("h:mma")
+      }
+      return dateTimeInDisplayTz.format("HH:mm")
+    }
+
+    // No conversion needed - just format
     const [hours, minutes] = time.split(":").map(Number)
     if (timeFormat === "12h") {
       const period = hours >= 12 ? "pm" : "am"

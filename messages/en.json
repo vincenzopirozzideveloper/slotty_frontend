@@ -365,6 +365,11 @@
       "thursday": "Thursday",
       "friday": "Friday",
       "saturday": "Saturday"
+    },
+    "timezone": {
+      "label": "Timezone",
+      "saved": "Timezone updated",
+      "error": "Failed to update timezone"
     }
   },
   "tokens": {

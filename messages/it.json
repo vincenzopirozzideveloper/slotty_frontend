@@ -365,6 +365,11 @@
       "thursday": "Giovedi",
       "friday": "Venerdi",
       "saturday": "Sabato"
+    },
+    "timezone": {
+      "label": "Fuso Orario",
+      "saved": "Fuso orario aggiornato",
+      "error": "Impossibile aggiornare il fuso orario"
     }
   },
   "tokens": {

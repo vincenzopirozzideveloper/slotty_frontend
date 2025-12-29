@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { cn } from "@/lib/utils"
 import type { TimeSlot } from "@/lib/api/public-calendar"
 import { Loader2 } from "lucide-react"
+import { dayjs } from "@/lib/dayjs"
 
 interface ColumnCalendarProps {
   startDate: Date
@@ -13,6 +14,8 @@ interface ColumnCalendarProps {
   selectedSlot?: { date: string; time: string } | null
   timeFormat: "12h" | "24h"
   isLoading?: boolean
+  ownerTimezone?: string
+  displayTimezone?: string
 }
 
 export function ColumnCalendar({
@@ -23,6 +26,8 @@ export function ColumnCalendar({
   selectedSlot,
   timeFormat,
   isLoading = false,
+  ownerTimezone = "Europe/Rome",
+  displayTimezone,
 }: ColumnCalendarProps) {
   // Generate dates for the columns
   const dates = useMemo(() => {
@@ -33,7 +38,25 @@ export function ColumnCalendar({
     })
   }, [startDate, days])
 
-  const formatTime = (time: string) => {
+  const getDateKey = (date: Date) => {
+    return date.toISOString().split("T")[0]
+  }
+
+  const formatTime = (time: string, date: Date) => {
+    const dateKey = getDateKey(date)
+
+    // If we have both timezones and they differ, convert
+    if (displayTimezone && ownerTimezone && displayTimezone !== ownerTimezone) {
+      const dateTimeInOwnerTz = dayjs.tz(`${dateKey}T${time}`, ownerTimezone)
+      const dateTimeInDisplayTz = dateTimeInOwnerTz.tz(displayTimezone)
+
+      if (timeFormat === "12h") {
+        return dateTimeInDisplayTz.format("h:mma")
+      }
+      return dateTimeInDisplayTz.format("HH:mm")
+    }
+
+    // No conversion needed
     const [hours, minutes] = time.split(":")
     const hour = parseInt(hours, 10)
 
@@ -52,10 +75,6 @@ export function ColumnCalendar({
     const isToday = new Date().toDateString() === date.toDateString()
 
     return { dayName, dayNum, month, isToday }
-  }
-
-  const getDateKey = (date: Date) => {
-    return date.toISOString().split("T")[0]
   }
 
   const isSlotSelected = (date: Date, slot: TimeSlot) => {
@@ -128,7 +147,7 @@ export function ColumnCalendar({
                               : "border-input bg-background"
                           )}
                         >
-                          {formatTime(slot.start_time)}
+                          {formatTime(slot.start_time, date)}
                         </button>
                       )
                     })}
