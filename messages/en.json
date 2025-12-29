@@ -192,6 +192,7 @@
       "dashboard": "Dashboard",
       "bookings": "Bookings",
       "calendar": "Calendar",
+      "tokens": "Public Links",
       "customers": "Customers",
       "settings": "Settings",
       "billing": "Billing"
@@ -295,6 +296,117 @@
       "priority_support": "Priority Support",
       "api_access": "API Access",
       "white_label": "White-label Option"
+    }
+  },
+  "bookings": {
+    "title": "Bookings",
+    "description": "Manage your booking requests",
+    "tabs": {
+      "all": "All",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "stats": {
+      "total": "Total Bookings",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "multiDay": "Multi-day",
+    "empty": {
+      "title": "No bookings yet",
+      "description": "When clients request bookings, they will appear here."
+    }
+  },
+  "calendar": {
+    "title": "Availability",
+    "description": "Configure your working hours and availability",
+    "schedule": {
+      "title": "Weekly Schedule",
+      "description": "Set your default working hours for each day of the week",
+      "unavailable": "Unavailable",
+      "addTimeBlock": "Add time block",
+      "copyToOtherDays": "Copy to other days",
+      "save": "Save Schedule",
+      "saving": "Saving...",
+      "saved": "Schedule saved successfully"
+    },
+    "overrides": {
+      "title": "Date Overrides",
+      "description": "Set special availability for specific dates",
+      "add": "Add Override",
+      "noOverrides": "No date overrides configured",
+      "delete": "Delete",
+      "unavailableAllDay": "Unavailable all day"
+    },
+    "days": {
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday"
+    }
+  },
+  "tokens": {
+    "title": "Public Links",
+    "description": "Manage your public calendar links",
+    "create": "Create Link",
+    "createdAt": "Created {date}",
+    "expiresAt": "Expires {date}",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "expired": "Expired"
+    },
+    "toggle": {
+      "active": "Link is active",
+      "inactive": "Link is disabled"
+    },
+    "actions": {
+      "copy": "Copy URL",
+      "open": "Open in new tab",
+      "regenerate": "Regenerate",
+      "delete": "Delete"
+    },
+    "createDialog": {
+      "title": "Create Public Link",
+      "description": "Create a new public link to share your calendar",
+      "name": "Link name (optional)",
+      "namePlaceholder": "e.g., Website, Instagram Bio",
+      "cancel": "Cancel",
+      "create": "Create"
+    },
+    "empty": {
+      "title": "No public links yet",
+      "description": "Create a link to share your calendar publicly"
+    },
+    "success": {
+      "created": "Link created successfully",
+      "copied": "URL copied to clipboard",
+      "regenerated": "Link regenerated",
+      "activated": "Link activated",
+      "deactivated": "Link deactivated",
+      "deleted": "Link deleted"
+    },
+    "error": {
+      "fetch": "Failed to load links",
+      "create": "Failed to create link",
+      "copy": "Failed to copy URL",
+      "regenerate": "Failed to regenerate link",
+      "toggle": "Failed to toggle link",
+      "delete": "Failed to delete link"
     }
   }
 }

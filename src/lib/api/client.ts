@@ -41,4 +41,13 @@ async function getCsrfToken() {
   }
 }
 
-export { api, getCsrfToken }
+// Public API client (no auth required)
+const publicApi = axios.create({
+  baseURL: "/api/v1",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+})
+
+export { api, publicApi, getCsrfToken }

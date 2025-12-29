@@ -1,99 +1,267 @@
+"use client"
+
+import { useState, useEffect, useCallback } from "react"
 import { useTranslations } from "next-intl"
-import { setRequestLocale } from "next-intl/server"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Plus, Search } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { bookingsApi, type Booking, type BookingsStats } from "@/lib/api/bookings"
+import {
+  Calendar,
+  Clock,
+  Mail,
+  Phone,
+  MessageSquare,
+  Check,
+  X,
+  Loader2,
+  CalendarDays,
+  Users,
+  CheckCircle,
+  XCircle,
+} from "lucide-react"
 
-const bookings = [
-  { id: 1, customer: "John Doe", service: "Consultation", date: "2024-01-15", time: "10:00 AM", status: "confirmed" },
-  { id: 2, customer: "Jane Smith", service: "Follow-up", date: "2024-01-15", time: "11:30 AM", status: "pending" },
-  { id: 3, customer: "Bob Johnson", service: "Initial Meeting", date: "2024-01-15", time: "02:00 PM", status: "confirmed" },
-  { id: 4, customer: "Alice Brown", service: "Consultation", date: "2024-01-16", time: "09:00 AM", status: "cancelled" },
-  { id: 5, customer: "Charlie Wilson", service: "Review", date: "2024-01-16", time: "03:00 PM", status: "confirmed" },
-]
+export default function BookingsPage() {
+  const t = useTranslations("bookings")
+  const [bookings, setBookings] = useState<Booking[]>([])
+  const [stats, setStats] = useState<BookingsStats>({ total: 0, pending: 0, approved: 0, rejected: 0 })
+  const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState("all")
+  const [actionLoading, setActionLoading] = useState<number | null>(null)
 
-const statusColors: Record<string, string> = {
-  confirmed: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
-  pending: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
-  cancelled: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
-}
+  const fetchBookings = useCallback(async (status?: string) => {
+    setLoading(true)
+    try {
+      const response = await bookingsApi.getBookings(status === "all" ? undefined : status)
+      setBookings(response.bookings)
+      setStats(response.stats)
+    } catch (error) {
+      console.error("Failed to fetch bookings:", error)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
-export default async function BookingsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  setRequestLocale(locale)
+  useEffect(() => {
+    fetchBookings(activeTab)
+  }, [activeTab, fetchBookings])
 
-  return <BookingsContent />
-}
+  const handleApprove = async (id: number) => {
+    setActionLoading(id)
+    try {
+      await bookingsApi.approveBooking(id)
+      fetchBookings(activeTab)
+    } catch (error) {
+      console.error("Failed to approve booking:", error)
+    } finally {
+      setActionLoading(null)
+    }
+  }
 
-function BookingsContent() {
-  const t = useTranslations("dashboard")
+  const handleReject = async (id: number) => {
+    setActionLoading(id)
+    try {
+      await bookingsApi.rejectBooking(id)
+      fetchBookings(activeTab)
+    } catch (error) {
+      console.error("Failed to reject booking:", error)
+    } finally {
+      setActionLoading(null)
+    }
+  }
+
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    })
+  }
+
+  const formatDateRange = (start: string, end: string | null) => {
+    if (!end) return formatDate(start)
+    return `${formatDate(start)} - ${formatDate(end)}`
+  }
+
+  const getStatusBadge = (status: Booking["status"]) => {
+    switch (status) {
+      case "pending":
+        return <Badge variant="secondary">{t("status.pending")}</Badge>
+      case "approved":
+        return <Badge className="bg-green-100 text-green-800 hover:bg-green-100">{t("status.approved")}</Badge>
+      case "rejected":
+        return <Badge variant="destructive">{t("status.rejected")}</Badge>
+    }
+  }
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">{t("bookings")}</h1>
-          <p className="text-muted-foreground">Manage your appointments and reservations.</p>
-        </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          New Booking
-        </Button>
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
+        <p className="text-muted-foreground">{t("description")}</p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>All Bookings</CardTitle>
-              <CardDescription>A list of all your bookings.</CardDescription>
+      {/* Stats Cards */}
+      <div className="grid gap-4 md:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{t("stats.total")}</CardTitle>
+            <CalendarDays className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.total}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{t("stats.pending")}</CardTitle>
+            <Users className="h-4 w-4 text-amber-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-amber-600">{stats.pending}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{t("stats.approved")}</CardTitle>
+            <CheckCircle className="h-4 w-4 text-green-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">{stats.approved}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{t("stats.rejected")}</CardTitle>
+            <XCircle className="h-4 w-4 text-red-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-red-600">{stats.rejected}</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Bookings List */}
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList>
+          <TabsTrigger value="all">{t("tabs.all")}</TabsTrigger>
+          <TabsTrigger value="pending" className="gap-2">
+            {t("tabs.pending")}
+            {stats.pending > 0 && (
+              <Badge variant="secondary" className="ml-1 h-5 px-1.5">
+                {stats.pending}
+              </Badge>
+            )}
+          </TabsTrigger>
+          <TabsTrigger value="approved">{t("tabs.approved")}</TabsTrigger>
+          <TabsTrigger value="rejected">{t("tabs.rejected")}</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value={activeTab} className="mt-6">
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
             </div>
-            <div className="relative w-64">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search bookings..." className="pl-8" />
+          ) : bookings.length === 0 ? (
+            <Card>
+              <CardContent className="flex flex-col items-center justify-center py-12">
+                <CalendarDays className="h-12 w-12 text-muted-foreground mb-4" />
+                <p className="text-lg font-medium">{t("empty.title")}</p>
+                <p className="text-sm text-muted-foreground">{t("empty.description")}</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-4">
+              {bookings.map((booking) => (
+                <Card key={booking.id}>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <CardTitle className="text-lg">{booking.name}</CardTitle>
+                        <CardDescription className="flex items-center gap-4 mt-1">
+                          <span className="flex items-center gap-1">
+                            <Mail className="h-3 w-3" />
+                            {booking.email}
+                          </span>
+                          {booking.phone && (
+                            <span className="flex items-center gap-1">
+                              <Phone className="h-3 w-3" />
+                              {booking.phone}
+                            </span>
+                          )}
+                        </CardDescription>
+                      </div>
+                      {getStatusBadge(booking.status)}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-sm">
+                          <Calendar className="h-4 w-4 text-muted-foreground" />
+                          <span className="font-medium">
+                            {formatDateRange(booking.requested_date, booking.requested_date_end)}
+                          </span>
+                          {booking.is_range && (
+                            <Badge variant="outline" className="text-xs">
+                              {t("multiDay")}
+                            </Badge>
+                          )}
+                        </div>
+                        {booking.requested_start_time && (
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <Clock className="h-4 w-4" />
+                            {booking.requested_start_time} - {booking.requested_end_time}
+                          </div>
+                        )}
+                        {booking.message && (
+                          <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                            <MessageSquare className="h-4 w-4 mt-0.5" />
+                            <span className="line-clamp-2">{booking.message}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {booking.status === "pending" && (
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            onClick={() => handleApprove(booking.id)}
+                            disabled={actionLoading === booking.id}
+                            className="gap-1"
+                          >
+                            {actionLoading === booking.id ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Check className="h-4 w-4" />
+                            )}
+                            {t("actions.approve")}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleReject(booking.id)}
+                            disabled={actionLoading === booking.id}
+                            className="gap-1"
+                          >
+                            {actionLoading === booking.id ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <X className="h-4 w-4" />
+                            )}
+                            {t("actions.reject")}
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="rounded-md border">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b bg-muted/50">
-                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Customer</th>
-                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Service</th>
-                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Date</th>
-                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Time</th>
-                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
-                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bookings.map((booking) => (
-                  <tr key={booking.id} className="border-b">
-                    <td className="p-4 align-middle font-medium">{booking.customer}</td>
-                    <td className="p-4 align-middle">{booking.service}</td>
-                    <td className="p-4 align-middle">{booking.date}</td>
-                    <td className="p-4 align-middle">{booking.time}</td>
-                    <td className="p-4 align-middle">
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusColors[booking.status]}`}>
-                        {booking.status}
-                      </span>
-                    </td>
-                    <td className="p-4 align-middle">
-                      <Button variant="ghost" size="sm">View</Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

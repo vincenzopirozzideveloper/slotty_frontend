@@ -15,6 +15,7 @@ import {
   ChevronUp,
   Zap,
   Sparkles,
+  Link2,
 } from "lucide-react"
 import {
   Sidebar,
@@ -44,6 +45,7 @@ const mainNavItems = [
   { key: "dashboard", url: "/dashboard", icon: LayoutDashboard },
   { key: "bookings", url: "/dashboard/bookings", icon: CalendarDays },
   { key: "calendar", url: "/dashboard/calendar", icon: Calendar },
+  { key: "tokens", url: "/dashboard/tokens", icon: Link2 },
   { key: "customers", url: "/dashboard/customers", icon: Users },
 ]
 

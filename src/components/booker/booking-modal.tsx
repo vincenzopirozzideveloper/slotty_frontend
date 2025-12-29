@@ -1,0 +1,215 @@
+"use client"
+
+import { useState } from "react"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Loader2, CheckCircle, Calendar, Clock } from "lucide-react"
+import type { TimeSlot, BookingRequestData } from "@/lib/api/public-calendar"
+
+interface BookingModalProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  selectedDate: string | null
+  selectedSlot?: TimeSlot | null
+  bookingMode: "full_day" | "time_slots"
+  onSubmit: (data: BookingRequestData) => Promise<void>
+  isSubmitting: boolean
+  calendarName?: string
+}
+
+export function BookingModal({
+  open,
+  onOpenChange,
+  selectedDate,
+  selectedSlot,
+  bookingMode,
+  onSubmit,
+  isSubmitting,
+  calendarName,
+}: BookingModalProps) {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  })
+  const [success, setSuccess] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!selectedDate) return
+
+    const bookingData: BookingRequestData = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone || undefined,
+      message: formData.message || undefined,
+      ...(bookingMode === "full_day"
+        ? {
+            requested_date: selectedDate,
+          }
+        : {
+            date: selectedDate,
+            time_slot_id: selectedSlot?.id,
+            start_time: selectedSlot?.start_time || "",
+            end_time: selectedSlot?.end_time || "",
+          }),
+    }
+
+    try {
+      await onSubmit(bookingData)
+      setSuccess(true)
+    } catch (error) {
+      // Error handled by parent
+    }
+  }
+
+  const handleClose = () => {
+    if (success) {
+      setSuccess(false)
+      setFormData({ name: "", email: "", phone: "", message: "" })
+    }
+    onOpenChange(false)
+  }
+
+  const formatDate = () => {
+    if (!selectedDate) return ""
+    const date = new Date(selectedDate)
+    return date.toLocaleDateString("default", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    })
+  }
+
+  const formatTime = () => {
+    if (bookingMode !== "time_slots" || !selectedSlot) return null
+    return `${selectedSlot.start_time} - ${selectedSlot.end_time}`
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-[425px]">
+        {success ? (
+          <div className="py-6 flex flex-col items-center justify-center text-center">
+            <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4">
+              <CheckCircle className="h-8 w-8 text-emerald-600" />
+            </div>
+            <h2 className="text-xl font-bold mb-2">Booking Request Sent!</h2>
+            <p className="text-muted-foreground mb-4">
+              We&apos;ll get back to you soon to confirm your booking.
+            </p>
+            <div className="text-sm text-muted-foreground space-y-1">
+              <p>{formatDate()}</p>
+              {formatTime() && <p>{formatTime()}</p>}
+            </div>
+            <Button className="mt-6" onClick={handleClose}>
+              Done
+            </Button>
+          </div>
+        ) : (
+          <>
+            <DialogHeader>
+              <DialogTitle>Complete your booking</DialogTitle>
+            </DialogHeader>
+
+            {/* Selected time info */}
+            <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+              {calendarName && (
+                <p className="font-medium">{calendarName}</p>
+              )}
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Calendar className="h-4 w-4" />
+                <span>{formatDate()}</span>
+              </div>
+              {formatTime() && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Clock className="h-4 w-4" />
+                  <span>{formatTime()}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="modal-name">Your name *</Label>
+                <Input
+                  id="modal-name"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="John Doe"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="modal-email">Email *</Label>
+                <Input
+                  id="modal-email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="john@example.com"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="modal-phone">Phone (optional)</Label>
+                <Input
+                  id="modal-phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  placeholder="+1 234 567 890"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="modal-message">Additional notes (optional)</Label>
+                <textarea
+                  id="modal-message"
+                  className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  placeholder="Any special requests or notes..."
+                />
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex-1"
+                  onClick={handleClose}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" className="flex-1" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    "Confirm Booking"
+                  )}
+                </Button>
+              </div>
+            </form>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
+  )
+}

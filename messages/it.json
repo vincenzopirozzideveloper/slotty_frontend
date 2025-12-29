@@ -192,6 +192,7 @@
       "dashboard": "Dashboard",
       "bookings": "Prenotazioni",
       "calendar": "Calendario",
+      "tokens": "Link Pubblici",
       "customers": "Clienti",
       "settings": "Impostazioni",
       "billing": "Fatturazione"
@@ -295,6 +296,117 @@
       "priority_support": "Supporto Prioritario",
       "api_access": "Accesso API",
       "white_label": "Opzione White-label"
+    }
+  },
+  "bookings": {
+    "title": "Prenotazioni",
+    "description": "Gestisci le richieste di prenotazione",
+    "tabs": {
+      "all": "Tutte",
+      "pending": "In Attesa",
+      "approved": "Approvate",
+      "rejected": "Rifiutate"
+    },
+    "status": {
+      "pending": "In Attesa",
+      "approved": "Approvata",
+      "rejected": "Rifiutata"
+    },
+    "stats": {
+      "total": "Totale Prenotazioni",
+      "pending": "In Attesa",
+      "approved": "Approvate",
+      "rejected": "Rifiutate"
+    },
+    "actions": {
+      "approve": "Approva",
+      "reject": "Rifiuta"
+    },
+    "multiDay": "Multi-giorno",
+    "empty": {
+      "title": "Nessuna prenotazione",
+      "description": "Quando i clienti richiedono prenotazioni, appariranno qui."
+    }
+  },
+  "calendar": {
+    "title": "Disponibilita",
+    "description": "Configura i tuoi orari di lavoro e disponibilita",
+    "schedule": {
+      "title": "Orario Settimanale",
+      "description": "Imposta i tuoi orari di lavoro predefiniti per ogni giorno della settimana",
+      "unavailable": "Non disponibile",
+      "addTimeBlock": "Aggiungi fascia oraria",
+      "copyToOtherDays": "Copia su altri giorni",
+      "save": "Salva Orario",
+      "saving": "Salvataggio...",
+      "saved": "Orario salvato con successo"
+    },
+    "overrides": {
+      "title": "Eccezioni Date",
+      "description": "Imposta disponibilita speciale per date specifiche",
+      "add": "Aggiungi Eccezione",
+      "noOverrides": "Nessuna eccezione configurata",
+      "delete": "Elimina",
+      "unavailableAllDay": "Non disponibile tutto il giorno"
+    },
+    "days": {
+      "sunday": "Domenica",
+      "monday": "Lunedi",
+      "tuesday": "Martedi",
+      "wednesday": "Mercoledi",
+      "thursday": "Giovedi",
+      "friday": "Venerdi",
+      "saturday": "Sabato"
+    }
+  },
+  "tokens": {
+    "title": "Link Pubblici",
+    "description": "Gestisci i tuoi link pubblici del calendario",
+    "create": "Crea Link",
+    "createdAt": "Creato il {date}",
+    "expiresAt": "Scade il {date}",
+    "status": {
+      "active": "Attivo",
+      "inactive": "Inattivo",
+      "expired": "Scaduto"
+    },
+    "toggle": {
+      "active": "Link attivo",
+      "inactive": "Link disabilitato"
+    },
+    "actions": {
+      "copy": "Copia URL",
+      "open": "Apri in nuova scheda",
+      "regenerate": "Rigenera",
+      "delete": "Elimina"
+    },
+    "createDialog": {
+      "title": "Crea Link Pubblico",
+      "description": "Crea un nuovo link pubblico per condividere il tuo calendario",
+      "name": "Nome del link (opzionale)",
+      "namePlaceholder": "es. Sito web, Bio Instagram",
+      "cancel": "Annulla",
+      "create": "Crea"
+    },
+    "empty": {
+      "title": "Nessun link pubblico",
+      "description": "Crea un link per condividere il tuo calendario pubblicamente"
+    },
+    "success": {
+      "created": "Link creato con successo",
+      "copied": "URL copiato negli appunti",
+      "regenerated": "Link rigenerato",
+      "activated": "Link attivato",
+      "deactivated": "Link disattivato",
+      "deleted": "Link eliminato"
+    },
+    "error": {
+      "fetch": "Impossibile caricare i link",
+      "create": "Impossibile creare il link",
+      "copy": "Impossibile copiare l'URL",
+      "regenerate": "Impossibile rigenerare il link",
+      "toggle": "Impossibile attivare/disattivare il link",
+      "delete": "Impossibile eliminare il link"
     }
   }
 }

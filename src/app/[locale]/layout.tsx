@@ -5,6 +5,7 @@ import { getMessages, setRequestLocale } from "next-intl/server"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/contexts/auth-context"
 import { routing } from "@/i18n/routing"
+import { Toaster } from "sonner"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,6 +55,7 @@ export default async function LocaleLayout({
           >
             <AuthProvider>
               {children}
+              <Toaster richColors position="top-right" />
             </AuthProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
