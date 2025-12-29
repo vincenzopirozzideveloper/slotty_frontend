@@ -23,9 +23,16 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Redirect to login if unauthorized
-      if (typeof window !== "undefined" && !window.location.pathname.includes("/login")) {
-        window.location.href = "/login"
+      // Only redirect to login for protected routes, not public pages
+      if (typeof window !== "undefined") {
+        const pathname = window.location.pathname
+        const publicPaths = ["/", "/login", "/register", "/forgot-password", "/reset-password", "/cal/"]
+        const isPublicPath = publicPaths.some(p => pathname === p || pathname.endsWith(p) || pathname.includes("/cal/"))
+        const isLocaleRoot = /^\/(en|it)\/?$/.test(pathname)
+
+        if (!isPublicPath && !isLocaleRoot && !pathname.includes("/login")) {
+          window.location.href = "/login"
+        }
       }
     }
     return Promise.reject(error)

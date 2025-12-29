@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -21,11 +22,15 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
         <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold">
-              S
-            </div>
-            <span className="hidden font-bold sm:inline-block">Slotty</span>
+          <Link href="/" className="mr-6 flex items-center">
+            <Image
+              src="/images/logo-horizontal-v3.png"
+              alt="Slotty"
+              width={200}
+              height={112}
+              className="h-16 w-auto"
+              priority
+            />
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
             {navLinks.map((link) => (
@@ -49,11 +54,14 @@ export function Navbar() {
           </SheetTrigger>
           <SheetContent side="left" className="pr-0">
             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold">
-                S
-              </div>
-              <span className="font-bold">Slotty</span>
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/logo-horizontal-v3.png"
+                alt="Slotty"
+                width={200}
+                height={112}
+                className="h-14 w-auto"
+              />
             </Link>
             <nav className="mt-8 flex flex-col space-y-4">
               {navLinks.map((link) => (
@@ -69,11 +77,14 @@ export function Navbar() {
           </SheetContent>
         </Sheet>
 
-        <Link href="/" className="mr-6 flex items-center space-x-2 md:hidden">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold">
-            S
-          </div>
-          <span className="font-bold">Slotty</span>
+        <Link href="/" className="mr-6 flex items-center md:hidden">
+          <Image
+            src="/images/logo-horizontal-v3.png"
+            alt="Slotty"
+            width={200}
+            height={112}
+            className="h-14 w-auto"
+          />
         </Link>
 
         <div className="flex flex-1 items-center justify-end space-x-2">
