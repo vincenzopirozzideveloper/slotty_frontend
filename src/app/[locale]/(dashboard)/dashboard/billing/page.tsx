@@ -244,7 +244,7 @@ export default function BillingPage() {
                       <CardDescription>
                         {plan.unlimited_bookings
                           ? t("unlimitedBookings")
-                          : t("bookingsPerMonth", { count: plan.bookings_per_month })}
+                          : t("bookingsPerMonth", { count: plan.bookings_per_month ?? 0 })}
                       </CardDescription>
                     </div>
                   </div>

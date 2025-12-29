@@ -1,5 +1,5 @@
 import { api } from "./client"
-import type { User } from "@/contexts/auth-context"
+import type { User } from "./auth"
 
 export interface UpdateProfileRequest {
   name: string

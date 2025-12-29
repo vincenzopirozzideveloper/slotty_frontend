@@ -44,12 +44,15 @@ export interface DaySlots {
 }
 
 export interface BookingRequestData {
-  requested_date: string
+  // Full day mode
+  requested_date?: string
   requested_date_end?: string
+  // Time slots mode
   date?: string
   start_time?: string
   end_time?: string
   time_slot_id?: number
+  // Common fields
   name: string
   email: string
   phone?: string

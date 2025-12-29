@@ -7,7 +7,7 @@ import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
 import { LanguageSwitcher } from "@/components/language-switcher"
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 export function Navbar() {
   const t = useTranslations("nav")
@@ -53,7 +53,6 @@ export function Navbar() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="pr-0">
-            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
             <Link href="/" className="flex items-center">
               <Image
                 src="/images/logo-horizontal-v3.png"
