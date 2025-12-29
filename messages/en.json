@@ -185,6 +185,111 @@
     "password": "Password",
     "billing": "Billing"
   },
+  "setup": {
+    "title": "Setup Your Calendar",
+    "subtitle": "Let's configure your booking system in just a few steps",
+    "stepOf": "Step {current} of {total}",
+    "mode": {
+      "title": "Choose Your Booking Mode",
+      "description": "Select how clients will book with you. This is an architectural choice that affects your entire calendar experience.",
+      "warning": {
+        "title": "Important: This cannot be changed later",
+        "description": "Once you complete setup, your booking mode is permanent. Choose carefully based on how you work with clients."
+      },
+      "fullDay": {
+        "title": "Full Day Booking",
+        "badge": "Simple",
+        "description": "Clients book entire days or date ranges. No time slots, no hourly scheduling - just simple day-based availability.",
+        "feature1": "Simple day-based calendar",
+        "feature2": "Single or multi-day bookings",
+        "feature3": "Less management overhead",
+        "ideal": "Ideal for: Photographers, event planners, consultants with day-rate pricing"
+      },
+      "timeSlots": {
+        "title": "Time Slot Booking",
+        "badge": "Flexible",
+        "description": "Clients book specific time slots within your available hours. Full control over your schedule with hourly precision.",
+        "feature1": "Hourly availability control",
+        "feature2": "Multiple slots per day",
+        "feature3": "Buffer time between bookings",
+        "ideal": "Ideal for: Coaches, therapists, tutors, service providers with hourly rates"
+      }
+    },
+    "schedule": {
+      "title": "Set Your Weekly Schedule",
+      "description": "Define your default working hours for each day of the week.",
+      "addBlock": "Add Block",
+      "noBlocks": "Add time blocks to set your availability",
+      "unavailable": "Unavailable"
+    },
+    "slots": {
+      "title": "Configure Slot Settings",
+      "description": "Fine-tune how your time slots work.",
+      "duration": {
+        "title": "Slot Duration",
+        "description": "How long is each booking slot?"
+      },
+      "buffer": {
+        "title": "Buffer Time",
+        "description": "Break time between consecutive bookings"
+      },
+      "advance": {
+        "title": "Advance Booking",
+        "description": "How far in advance can clients book?"
+      },
+      "notice": {
+        "title": "Minimum Notice",
+        "description": "Minimum hours before a slot can be booked"
+      },
+      "minutes": "min",
+      "hours": "hours",
+      "hoursLabel": "hours",
+      "days": "days"
+    },
+    "branding": {
+      "title": "Brand Your Calendar",
+      "description": "Personalize how your calendar appears to clients.",
+      "name": {
+        "label": "Calendar Name",
+        "placeholder": "e.g., Photography Sessions with John",
+        "hint": "This appears at the top of your public calendar"
+      },
+      "tagline": {
+        "label": "Tagline",
+        "placeholder": "e.g., Professional photography for special moments",
+        "hint": "A short description of your services (optional)"
+      },
+      "heroText": {
+        "label": "Welcome Message",
+        "placeholder": "e.g., Book a session with me! I specialize in portraits and events...",
+        "hint": "A longer description shown on your booking page (optional)"
+      }
+    },
+    "review": {
+      "title": "Review & Launch",
+      "description": "Review your settings before launching your calendar.",
+      "mode": "Booking Mode",
+      "branding": "Branding",
+      "schedule": "Weekly Schedule",
+      "settings": "Slot Settings",
+      "ready": "Ready to launch!",
+      "readyDescription": "Your calendar is configured and ready for clients."
+    },
+    "navigation": {
+      "back": "Back",
+      "next": "Continue",
+      "launch": "Launch Calendar"
+    },
+    "days": {
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday"
+    }
+  },
   "dashboardPage": {
     "title": "Dashboard",
     "welcome": "Here's an overview of your bookings and activity",

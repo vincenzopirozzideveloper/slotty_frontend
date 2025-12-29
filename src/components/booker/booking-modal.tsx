@@ -17,6 +17,7 @@ interface BookingModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   selectedDate: string | null
+  selectedEndDate?: string | null
   selectedSlot?: TimeSlot | null
   bookingMode: "full_day" | "time_slots"
   onSubmit: (data: BookingRequestData) => Promise<void>
@@ -28,6 +29,7 @@ export function BookingModal({
   open,
   onOpenChange,
   selectedDate,
+  selectedEndDate,
   selectedSlot,
   bookingMode,
   onSubmit,
@@ -55,6 +57,7 @@ export function BookingModal({
       ...(bookingMode === "full_day"
         ? {
             requested_date: selectedDate,
+            requested_date_end: selectedEndDate || undefined,
           }
         : {
             date: selectedDate,
@@ -83,12 +86,26 @@ export function BookingModal({
   const formatDate = () => {
     if (!selectedDate) return ""
     const date = new Date(selectedDate)
-    return date.toLocaleDateString("default", {
+    const dateStr = date.toLocaleDateString("default", {
       weekday: "long",
       month: "long",
       day: "numeric",
       year: "numeric",
     })
+
+    // For full_day mode with date range
+    if (bookingMode === "full_day" && selectedEndDate && selectedEndDate !== selectedDate) {
+      const endDate = new Date(selectedEndDate)
+      const endDateStr = endDate.toLocaleDateString("default", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+      return `${dateStr} - ${endDateStr}`
+    }
+
+    return dateStr
   }
 
   const formatTime = () => {

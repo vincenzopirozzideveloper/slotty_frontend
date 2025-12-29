@@ -38,6 +38,7 @@ export default function PublicBookingPage() {
 
   // Selection state
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null)
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null)
   const [bookerState, setBookerState] = useState<BookerState>("selecting_date")
 
@@ -140,14 +141,22 @@ export default function PublicBookingPage() {
       return
     }
 
-    if (selectedSlot || (calendar?.booking_mode === "full_day" && selectedDate)) {
+    // For full_day mode, need either single date or complete range
+    if (calendar?.booking_mode === "full_day") {
+      // If we have a complete range selection (start and end), go to booking
+      if (selectedDate && selectedEndDate) {
+        setBookerState("booking")
+      } else {
+        setBookerState("selecting_date")
+      }
+    } else if (selectedSlot) {
       setBookerState("booking")
     } else if (selectedDate) {
       setBookerState("selecting_time")
     } else {
       setBookerState("selecting_date")
     }
-  }, [selectedDate, selectedSlot, calendar?.booking_mode, layout])
+  }, [selectedDate, selectedEndDate, selectedSlot, calendar?.booking_mode, layout])
 
   const handleMonthChange = useCallback(
     async (year: number, month: number) => {
@@ -161,14 +170,13 @@ export default function PublicBookingPage() {
     [token]
   )
 
-  const handleDateSelect = (date: string) => {
+  const handleDateSelect = (date: string, endDate?: string | null) => {
     setSelectedDate(date)
+    setSelectedEndDate(endDate ?? null)
     setSelectedSlot(null)
 
-    // For full_day mode, go directly to booking
-    if (calendar?.booking_mode === "full_day") {
-      setBookerState("booking")
-    }
+    // For full_day mode with range, booking state is set by the useEffect
+    // For time_slots mode, we wait for slot selection
   }
 
   const handleSlotSelect = (slot: TimeSlot) => {
@@ -193,6 +201,7 @@ export default function PublicBookingPage() {
     setSelectedSlot(null)
     if (calendar?.booking_mode === "full_day") {
       setSelectedDate(null)
+      setSelectedEndDate(null)
     }
     setBookerState(selectedDate ? "selecting_time" : "selecting_date")
   }
@@ -256,8 +265,10 @@ export default function PublicBookingPage() {
           <BookerDatePicker
             monthData={monthData}
             selectedDate={selectedDate}
+            selectedEndDate={selectedEndDate}
             onSelectDate={handleDateSelect}
             onMonthChange={handleMonthChange}
+            rangeMode={calendar.booking_mode === "full_day"}
           />
         </div>
 
@@ -291,6 +302,7 @@ export default function PublicBookingPage() {
           <div className="border-t pt-6">
             <BookingForm
               selectedDate={selectedDate!}
+              selectedEndDate={selectedEndDate}
               selectedSlot={selectedSlot}
               bookingMode={calendar.booking_mode}
               onSubmit={handleBookingSubmit}
@@ -323,7 +335,8 @@ export default function PublicBookingPage() {
       <div
         className={cn(
           "bg-background overflow-hidden",
-          layout === "month" && "rounded-lg border shadow-lg grid max-w-5xl w-full grid-cols-[320px_1fr_280px]",
+          layout === "month" && isTimeSlotsMode && "rounded-lg border shadow-lg grid max-w-5xl w-full grid-cols-[320px_1fr_280px]",
+          layout === "month" && !isTimeSlotsMode && "rounded-lg border shadow-lg grid max-w-3xl w-full grid-cols-[320px_1fr]",
           layout !== "month" && "h-screen w-full grid grid-cols-[320px_1fr]"
         )}
         style={{ minHeight: layout === "month" ? "500px" : "100vh" }}
@@ -343,8 +356,10 @@ export default function PublicBookingPage() {
               <BookerDatePicker
                 monthData={monthData}
                 selectedDate={selectedDate}
+                selectedEndDate={selectedEndDate}
                 onSelectDate={handleDateSelect}
                 onMonthChange={handleMonthChange}
+                rangeMode={calendar.booking_mode === "full_day"}
                 compact
               />
             </div>
@@ -371,6 +386,7 @@ export default function PublicBookingPage() {
             {bookerState === "booking" ? (
               <BookingForm
                 selectedDate={selectedDate!}
+                selectedEndDate={selectedEndDate}
                 selectedSlot={selectedSlot}
                 bookingMode={calendar.booking_mode}
                 onSubmit={handleBookingSubmit}
@@ -382,8 +398,10 @@ export default function PublicBookingPage() {
                 <BookerDatePicker
                   monthData={monthData}
                   selectedDate={selectedDate}
+                  selectedEndDate={selectedEndDate}
                   onSelectDate={handleDateSelect}
                   onMonthChange={handleMonthChange}
+                  rangeMode={calendar.booking_mode === "full_day"}
                 />
               </div>
             ) : layout === "week" ? (
@@ -470,8 +488,8 @@ export default function PublicBookingPage() {
           </div>
         )}
 
-        {/* Layout toggle for month view */}
-        {layout === "month" && (
+        {/* Layout toggle for month view (only for time_slots mode) */}
+        {layout === "month" && isTimeSlotsMode && (
           <div className="absolute top-4 right-4">
             <BookerHeader
               layout={layout}
@@ -496,6 +514,7 @@ export default function PublicBookingPage() {
           }
         }}
         selectedDate={selectedDate}
+        selectedEndDate={selectedEndDate}
         selectedSlot={selectedSlot}
         bookingMode={calendar.booking_mode}
         onSubmit={handleBookingSubmit}

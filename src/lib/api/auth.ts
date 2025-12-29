@@ -8,6 +8,8 @@ export interface User {
   timezone: string
   plan: "free" | "pro" | "max"
   plan_label: string
+  setup_completed: boolean
+  booking_mode: "full_day" | "time_slots" | null
   created_at: string
   updated_at: string
 }

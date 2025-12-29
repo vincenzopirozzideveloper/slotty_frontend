@@ -9,6 +9,7 @@ import type { TimeSlot, BookingRequestData } from "@/lib/api/public-calendar"
 
 interface BookingFormProps {
   selectedDate: string
+  selectedEndDate?: string | null
   selectedSlot?: TimeSlot | null
   bookingMode: "full_day" | "time_slots"
   onSubmit: (data: BookingRequestData) => Promise<void>
@@ -18,6 +19,7 @@ interface BookingFormProps {
 
 export function BookingForm({
   selectedDate,
+  selectedEndDate,
   selectedSlot,
   bookingMode,
   onSubmit,
@@ -43,6 +45,7 @@ export function BookingForm({
       ...(bookingMode === "full_day"
         ? {
             requested_date: selectedDate,
+            requested_date_end: selectedEndDate || undefined,
           }
         : {
             date: selectedDate,
@@ -71,6 +74,18 @@ export function BookingForm({
 
     if (bookingMode === "time_slots" && selectedSlot) {
       return `${dateStr} at ${selectedSlot.start_time} - ${selectedSlot.end_time}`
+    }
+
+    // For full_day mode with date range
+    if (bookingMode === "full_day" && selectedEndDate && selectedEndDate !== selectedDate) {
+      const endDate = new Date(selectedEndDate)
+      const endDateStr = endDate.toLocaleDateString("default", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+      return `${dateStr} - ${endDateStr}`
     }
 
     return dateStr

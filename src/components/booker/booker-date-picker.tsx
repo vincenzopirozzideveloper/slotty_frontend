@@ -9,10 +9,12 @@ import type { MonthAvailability, DayAvailability } from "@/lib/api/public-calend
 interface BookerDatePickerProps {
   monthData: MonthAvailability | null
   selectedDate: string | null
-  onSelectDate: (date: string) => void
+  selectedEndDate?: string | null
+  onSelectDate: (date: string, endDate?: string | null) => void
   onMonthChange: (year: number, month: number) => void
   isLoading?: boolean
   compact?: boolean
+  rangeMode?: boolean
 }
 
 const DAYS_OF_WEEK = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
@@ -20,12 +22,15 @@ const DAYS_OF_WEEK = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
 export function BookerDatePicker({
   monthData,
   selectedDate,
+  selectedEndDate,
   onSelectDate,
   onMonthChange,
   isLoading,
   compact = false,
+  rangeMode = false,
 }: BookerDatePickerProps) {
   const today = new Date()
+  const [rangeStart, setRangeStart] = useState<string | null>(null)
   const currentYear = monthData?.year || today.getFullYear()
   const currentMonth = monthData?.month || today.getMonth() + 1
 
@@ -79,26 +84,67 @@ export function BookerDatePicker({
     return day.status === "available"
   }
 
+  const isInRange = (date: string) => {
+    if (!rangeMode || !selectedDate || !selectedEndDate) return false
+    return date >= selectedDate && date <= selectedEndDate
+  }
+
+  const isRangeStart = (date: string) => rangeMode && selectedDate === date
+  const isRangeEnd = (date: string) => rangeMode && selectedEndDate === date
+
   const getDayClasses = (day: DayAvailability | null) => {
     if (!day) return "invisible"
 
     const isSelected = selectedDate === day.date
+    const isEnd = selectedEndDate === day.date
+    const inRange = isInRange(day.date)
     const isToday = day.date === today.toISOString().split("T")[0]
     const isAvailable = day.status === "available"
     const isBooked = day.status === "booked"
     const isPast = day.status === "past"
 
     return cn(
-      "aspect-square rounded-md font-medium transition-colors",
+      "aspect-square font-medium transition-colors",
       "flex items-center justify-center relative",
       compact ? "text-xs" : "text-sm",
-      isSelected && "bg-primary text-primary-foreground",
-      !isSelected && isAvailable && "bg-muted hover:bg-primary/20 cursor-pointer",
-      !isSelected && isBooked && "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200",
-      !isSelected && isPast && "text-muted-foreground/50",
-      !isSelected && day.status === "blocked" && "text-muted-foreground/30",
-      isToday && !isSelected && "ring-1 ring-primary ring-offset-1"
+      // Range selection styles
+      rangeMode && inRange && !isSelected && !isEnd && "bg-primary/20",
+      rangeMode && isSelected && "bg-primary text-primary-foreground rounded-l-md rounded-r-none",
+      rangeMode && isEnd && "bg-primary text-primary-foreground rounded-r-md rounded-l-none",
+      rangeMode && isSelected && isEnd && "rounded-md", // Single day selection
+      // Single date selection styles
+      !rangeMode && isSelected && "bg-primary text-primary-foreground rounded-md",
+      !isSelected && !isEnd && !inRange && isAvailable && "bg-muted hover:bg-primary/20 cursor-pointer rounded-md",
+      !isSelected && !isEnd && !inRange && isBooked && "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200 rounded-md",
+      !isSelected && !isEnd && !inRange && isPast && "text-muted-foreground/50 rounded-md",
+      !isSelected && !isEnd && !inRange && day.status === "blocked" && "text-muted-foreground/30 rounded-md",
+      isToday && !isSelected && !isEnd && "ring-1 ring-primary ring-offset-1"
     )
+  }
+
+  const handleDateClick = (day: DayAvailability) => {
+    if (!isDateSelectable(day)) return
+
+    if (!rangeMode) {
+      onSelectDate(day.date)
+      return
+    }
+
+    // Range mode logic
+    if (!rangeStart) {
+      // First click - set range start
+      setRangeStart(day.date)
+      onSelectDate(day.date, null)
+    } else {
+      // Second click - set range end
+      if (day.date < rangeStart) {
+        // If clicking before start, swap
+        onSelectDate(day.date, rangeStart)
+      } else {
+        onSelectDate(rangeStart, day.date)
+      }
+      setRangeStart(null)
+    }
   }
 
   return (
@@ -151,7 +197,7 @@ export function BookerDatePicker({
           <button
             key={index}
             disabled={!isDateSelectable(day)}
-            onClick={() => day && isDateSelectable(day) && onSelectDate(day.date)}
+            onClick={() => day && handleDateClick(day)}
             className={getDayClasses(day)}
           >
             {day && (
@@ -165,6 +211,13 @@ export function BookerDatePicker({
           </button>
         ))}
       </div>
+
+      {/* Range selection hint */}
+      {rangeMode && rangeStart && !selectedEndDate && (
+        <p className="text-xs text-muted-foreground text-center mt-2">
+          Click another date to complete the range
+        </p>
+      )}
 
       {isLoading && (
         <div className="absolute inset-0 bg-background/50 flex items-center justify-center">

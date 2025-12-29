@@ -185,6 +185,111 @@
     "password": "Password",
     "billing": "Fatturazione"
   },
+  "setup": {
+    "title": "Configura il Tuo Calendario",
+    "subtitle": "Configuriamo il tuo sistema di prenotazioni in pochi semplici passi",
+    "stepOf": "Passo {current} di {total}",
+    "mode": {
+      "title": "Scegli la Modalita di Prenotazione",
+      "description": "Seleziona come i clienti prenoteranno con te. Questa e una scelta architetturale che influenza tutta l'esperienza del calendario.",
+      "warning": {
+        "title": "Importante: Non puo essere cambiato dopo",
+        "description": "Una volta completata la configurazione, la modalita di prenotazione e permanente. Scegli con attenzione in base a come lavori con i clienti."
+      },
+      "fullDay": {
+        "title": "Prenotazione Giornaliera",
+        "badge": "Semplice",
+        "description": "I clienti prenotano giornate intere o intervalli di date. Niente fasce orarie, niente programmazione oraria - solo semplice disponibilita giornaliera.",
+        "feature1": "Calendario semplice basato sui giorni",
+        "feature2": "Prenotazioni singole o multi-giorno",
+        "feature3": "Meno gestione amministrativa",
+        "ideal": "Ideale per: Fotografi, organizzatori di eventi, consulenti con tariffe giornaliere"
+      },
+      "timeSlots": {
+        "title": "Prenotazione a Fasce Orarie",
+        "badge": "Flessibile",
+        "description": "I clienti prenotano fasce orarie specifiche nelle tue ore disponibili. Controllo completo sul tuo calendario con precisione oraria.",
+        "feature1": "Controllo disponibilita oraria",
+        "feature2": "Piu fasce orarie al giorno",
+        "feature3": "Tempo di pausa tra prenotazioni",
+        "ideal": "Ideale per: Coach, terapisti, tutor, professionisti con tariffe orarie"
+      }
+    },
+    "schedule": {
+      "title": "Imposta il Tuo Orario Settimanale",
+      "description": "Definisci i tuoi orari di lavoro predefiniti per ogni giorno della settimana.",
+      "addBlock": "Aggiungi Blocco",
+      "noBlocks": "Aggiungi blocchi orari per impostare la tua disponibilita",
+      "unavailable": "Non disponibile"
+    },
+    "slots": {
+      "title": "Configura Impostazioni Fasce",
+      "description": "Personalizza come funzionano le tue fasce orarie.",
+      "duration": {
+        "title": "Durata Fascia",
+        "description": "Quanto dura ogni fascia di prenotazione?"
+      },
+      "buffer": {
+        "title": "Tempo di Pausa",
+        "description": "Pausa tra prenotazioni consecutive"
+      },
+      "advance": {
+        "title": "Prenotazione Anticipata",
+        "description": "Con quanto anticipo possono prenotare i clienti?"
+      },
+      "notice": {
+        "title": "Preavviso Minimo",
+        "description": "Ore minime prima che una fascia possa essere prenotata"
+      },
+      "minutes": "min",
+      "hours": "ore",
+      "hoursLabel": "ore",
+      "days": "giorni"
+    },
+    "branding": {
+      "title": "Personalizza il Tuo Calendario",
+      "description": "Personalizza come appare il tuo calendario ai clienti.",
+      "name": {
+        "label": "Nome Calendario",
+        "placeholder": "es. Sessioni Fotografiche con Mario",
+        "hint": "Appare in cima al tuo calendario pubblico"
+      },
+      "tagline": {
+        "label": "Slogan",
+        "placeholder": "es. Fotografia professionale per momenti speciali",
+        "hint": "Una breve descrizione dei tuoi servizi (opzionale)"
+      },
+      "heroText": {
+        "label": "Messaggio di Benvenuto",
+        "placeholder": "es. Prenota una sessione con me! Mi specializzo in ritratti ed eventi...",
+        "hint": "Una descrizione piu lunga mostrata sulla tua pagina di prenotazione (opzionale)"
+      }
+    },
+    "review": {
+      "title": "Revisione & Lancio",
+      "description": "Rivedi le tue impostazioni prima di lanciare il calendario.",
+      "mode": "Modalita Prenotazione",
+      "branding": "Branding",
+      "schedule": "Orario Settimanale",
+      "settings": "Impostazioni Fasce",
+      "ready": "Pronto per il lancio!",
+      "readyDescription": "Il tuo calendario e configurato e pronto per i clienti."
+    },
+    "navigation": {
+      "back": "Indietro",
+      "next": "Continua",
+      "launch": "Lancia Calendario"
+    },
+    "days": {
+      "sunday": "Domenica",
+      "monday": "Lunedi",
+      "tuesday": "Martedi",
+      "wednesday": "Mercoledi",
+      "thursday": "Giovedi",
+      "friday": "Venerdi",
+      "saturday": "Sabato"
+    }
+  },
   "dashboardPage": {
     "title": "Dashboard",
     "welcome": "Ecco una panoramica delle tue prenotazioni e attivita",

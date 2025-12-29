@@ -54,14 +54,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (credentials: LoginCredentials) => {
     await authApi.login(credentials)
-    await refreshUser()
-    router.push("/dashboard")
+    const userData = await authApi.getUser()
+    setUser(userData)
+    // Redirect to setup if not completed
+    if (!userData.setup_completed) {
+      router.push("/setup")
+    } else {
+      router.push("/dashboard")
+    }
   }
 
   const register = async (data: RegisterData) => {
     await authApi.register(data)
-    await refreshUser()
-    router.push("/dashboard")
+    const userData = await authApi.getUser()
+    setUser(userData)
+    // New users always go to setup
+    router.push("/setup")
   }
 
   const logout = async () => {
