@@ -48,6 +48,20 @@ export interface CreateOverrideRequest {
   reason?: string
 }
 
+export interface SocialCalendarDay {
+  day: number
+  date: string
+  status: "available" | "fully_booked" | "closed" | "past"
+  available_count: number
+  booked_count: number
+  is_past: boolean
+}
+
+export interface CalendarSettings {
+  brand_name: string | null
+  tagline: string | null
+}
+
 export const calendarApi = {
   async getCalendar(): Promise<CalendarInfo | null> {
     const response = await api.get<{ calendar: CalendarInfo | null }>("/calendar")
@@ -76,5 +90,18 @@ export const calendarApi = {
 
   async deleteOverride(id: number): Promise<void> {
     await api.delete(`/calendar/overrides/${id}`)
+  },
+
+  async getSocialCalendar(year: number, month: number): Promise<{
+    calendar_name: string
+    settings: CalendarSettings
+    days: SocialCalendarDay[]
+  }> {
+    const response = await api.get<{
+      calendar_name: string
+      settings: CalendarSettings
+      days: SocialCalendarDay[]
+    }>(`/calendar/social/${year}/${month}`)
+    return response.data
   },
 }

@@ -16,6 +16,7 @@ import {
   Zap,
   Sparkles,
   Link2,
+  Camera,
 } from "lucide-react"
 import {
   Sidebar,
@@ -47,6 +48,7 @@ const mainNavItems = [
   { key: "calendar", url: "/dashboard/calendar", icon: Calendar },
   { key: "tokens", url: "/dashboard/tokens", icon: Link2 },
   { key: "customers", url: "/dashboard/customers", icon: Users },
+  { key: "social", url: "/dashboard/social", icon: Camera },
 ]
 
 const settingsNavItems = [

@@ -326,6 +326,7 @@
       "calendar": "Availability",
       "tokens": "Public Links",
       "customers": "Customers",
+      "social": "Social Image",
       "settings": "Settings",
       "billing": "Billing"
     },
@@ -577,6 +578,48 @@
       "regenerate": "Failed to regenerate link",
       "toggle": "Failed to toggle link",
       "delete": "Failed to delete link"
+    }
+  },
+  "social": {
+    "title": "Social Image",
+    "description": "Generate calendar images for social media",
+    "selectMonth": "Select Month",
+    "styleOptions": "Style Options",
+    "colorScheme": "Color Scheme",
+    "showBrand": "Show brand name",
+    "showLegend": "Show legend",
+    "download": "Download Image",
+    "generating": "Generating...",
+    "preview": "Preview",
+    "formatInfo": "9:16 format optimized for Instagram Stories",
+    "bookNow": "Book now!",
+    "schemes": {
+      "default": "Classic (Blue)",
+      "dark": "Dark",
+      "gradient": "Gradient",
+      "minimal": "Minimal"
+    },
+    "legend": {
+      "available": "Available",
+      "booked": "Booked",
+      "closed": "Closed"
+    },
+    "days": {
+      "mon": "M",
+      "tue": "T",
+      "wed": "W",
+      "thu": "T",
+      "fri": "F",
+      "sat": "S",
+      "sun": "S"
+    },
+    "mobileModal": {
+      "instruction": "Press and hold the image, then select \"Save Image\"",
+      "close": "Close"
+    },
+    "error": {
+      "libraryNotLoaded": "Library not loaded, please reload the page",
+      "generating": "Error generating image"
     }
   }
 }

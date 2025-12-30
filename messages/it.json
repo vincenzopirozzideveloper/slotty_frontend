@@ -326,6 +326,7 @@
       "calendar": "Disponibilità",
       "tokens": "Link Pubblici",
       "customers": "Clienti",
+      "social": "Immagine Social",
       "settings": "Impostazioni",
       "billing": "Fatturazione"
     },
@@ -577,6 +578,48 @@
       "regenerate": "Impossibile rigenerare il link",
       "toggle": "Impossibile attivare/disattivare il link",
       "delete": "Impossibile eliminare il link"
+    }
+  },
+  "social": {
+    "title": "Immagine Social",
+    "description": "Genera immagini del calendario per i social media",
+    "selectMonth": "Seleziona Mese",
+    "styleOptions": "Opzioni Stile",
+    "colorScheme": "Schema Colori",
+    "showBrand": "Mostra nome brand",
+    "showLegend": "Mostra legenda",
+    "download": "Scarica Immagine",
+    "generating": "Generazione...",
+    "preview": "Anteprima",
+    "formatInfo": "Formato 9:16 ottimizzato per Instagram Stories",
+    "bookNow": "Prenota ora!",
+    "schemes": {
+      "default": "Classico (Blu)",
+      "dark": "Scuro",
+      "gradient": "Gradiente",
+      "minimal": "Minimale"
+    },
+    "legend": {
+      "available": "Disponibile",
+      "booked": "Prenotato",
+      "closed": "Chiuso"
+    },
+    "days": {
+      "mon": "L",
+      "tue": "M",
+      "wed": "M",
+      "thu": "G",
+      "fri": "V",
+      "sat": "S",
+      "sun": "D"
+    },
+    "mobileModal": {
+      "instruction": "Tieni premuto sull'immagine e seleziona \"Salva immagine\"",
+      "close": "Chiudi"
+    },
+    "error": {
+      "libraryNotLoaded": "Libreria non caricata, ricarica la pagina",
+      "generating": "Errore nella generazione dell'immagine"
     }
   }
 }
